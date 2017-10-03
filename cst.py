@@ -36,11 +36,20 @@ class Window(QtGui.QDialog):
 
 		btnR = QtGui.QPushButton('Refresh', self)
 		btnR.clicked.connect(CSTMOD)
-		grid.addWidget(btnR)
 
 		btnQ = QtGui.QPushButton('Quit', self)
 		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
-		grid.addWidget(btnQ)
+
+		self.spDelta = QtGui.QSpinBox(self)
+		self.spDelta.setRange(0, 1)
+		self.spDelta.setSingleStep(1)
+
+		self.slDelta = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+		self.slDelta.setMinimum(0)
+		self.slDelta.setMaximum(100)
+		self.slDelta.setValue(0)
+		self.slDelta.setTickInterval(10)
+		self.slDelta.setTickPosition(QtGui.QSlider.TicksBelow)
 
 		self.spAu0 = QtGui.QSpinBox(self)
 		self.spAu0.setRange(0, 1)
@@ -51,6 +60,7 @@ class Window(QtGui.QDialog):
 		self.slAu0.setMaximum(100)
 		self.slAu0.setValue(0)
 		self.slAu0.setTickInterval(10)
+		self.slAu0.setTickPosition(QtGui.QSlider.TicksBelow)
 
 		self.spAu1 = QtGui.QSpinBox(self)
 		self.spAu1.setRange(0, 1)
@@ -61,6 +71,7 @@ class Window(QtGui.QDialog):
 		self.slAu1.setMaximum(100)
 		self.slAu1.setValue(0)
 		self.slAu1.setTickInterval(10)
+		self.slAu1.setTickPosition(QtGui.QSlider.TicksBelow)
 
 		self.spAl0 = QtGui.QSpinBox(self)
 		self.spAl0.setRange(0, 1)
@@ -71,6 +82,7 @@ class Window(QtGui.QDialog):
 		self.slAl0.setMaximum(100)
 		self.slAl0.setValue(0)
 		self.slAl0.setTickInterval(10)
+		self.slAl0.setTickPosition(QtGui.QSlider.TicksBelow)
 
 		self.spAl1 = QtGui.QSpinBox(self)
 		self.spAl1.setRange(0, 1)
@@ -81,8 +93,25 @@ class Window(QtGui.QDialog):
 		self.slAl1.setMaximum(100)
 		self.slAl1.setValue(0)
 		self.slAl1.setTickInterval(10)
-		
+		self.slAl1.setTickPosition(QtGui.QSlider.TicksBelow)
 
+		self.slDelta.valueChanged.connect(self.spDelta.setValue)
+		self.spDelta.valueChanged.connect(self.slDelta.setValue)
+
+		self.slAu0.valueChanged.connect(self.spAu0.setValue)
+		self.spAu0.valueChanged.connect(self.slAu0.setValue)
+
+		self.slAu1.valueChanged.connect(self.spAu1.setValue)
+		self.spAu1.valueChanged.connect(self.slAu1.setValue)
+
+		self.slAl0.valueChanged.connect(self.spAl0.setValue)
+		self.spAl0.valueChanged.connect(self.slAl0.setValue)
+
+		self.slAl1.valueChanged.connect(self.spAl1.setValue)
+		self.spAl1.valueChanged.connect(self.slAl1.setValue)
+		
+		grid.addWidget(self.spDelta)
+		grid.addWidget(self.slDelta)
 		grid.addWidget(self.spAu0)
 		grid.addWidget(self.slAu0)
 		grid.addWidget(self.spAu1)
