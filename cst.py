@@ -27,3 +27,12 @@ def CSTMOD():
 class Window(QtGui.QDialog):
 	def __init__(self, parent=None):
 		super(Window, self).__init__(parent)
+		self.setGeometry(630,200,900,900)
+		self.setWindowTitle('CST control!!!')
+		self.setWindowIcon(QtGui.QIcon('images.png'))
+
+		grid = QtGui.QGridLayout()
+		self.setLayout(grid)
+		
+		btnQ = QtGui.QPushButton('Quit', self)
+		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
