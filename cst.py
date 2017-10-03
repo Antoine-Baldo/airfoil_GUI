@@ -27,12 +27,72 @@ def CSTMOD():
 class Window(QtGui.QDialog):
 	def __init__(self, parent=None):
 		super(Window, self).__init__(parent)
-		self.setGeometry(630,200,900,900)
+		self.setGeometry(400,50,1200,980)
 		self.setWindowTitle('CST control!!!')
 		self.setWindowIcon(QtGui.QIcon('images.png'))
 
 		grid = QtGui.QGridLayout()
 		self.setLayout(grid)
-		
+
+		btnR = QtGui.QPushButton('Refresh', self)
+		btnR.clicked.connect(CSTMOD)
+		grid.addWidget(btnR)
+
 		btnQ = QtGui.QPushButton('Quit', self)
 		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
+		grid.addWidget(btnQ)
+
+		self.spAu0 = QtGui.QSpinBox(self)
+		self.spAu0.setRange(0, 1)
+		self.spAu0.setSingleStep(1)
+
+		self.slAu0 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+		self.slAu0.setMinimum(0)
+		self.slAu0.setMaximum(100)
+		self.slAu0.setValue(0)
+		self.slAu0.setTickInterval(10)
+
+		self.spAu1 = QtGui.QSpinBox(self)
+		self.spAu1.setRange(0, 1)
+		self.spAu1.setSingleStep(1)
+
+		self.slAu1 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+		self.slAu1.setMinimum(0)
+		self.slAu1.setMaximum(100)
+		self.slAu1.setValue(0)
+		self.slAu1.setTickInterval(10)
+
+		self.spAl0 = QtGui.QSpinBox(self)
+		self.spAl0.setRange(0, 1)
+		self.spAl0.setSingleStep(1)
+
+		self.slAl0 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+		self.slAl0.setMinimum(0)
+		self.slAl0.setMaximum(100)
+		self.slAl0.setValue(0)
+		self.slAl0.setTickInterval(10)
+
+		self.spAl1 = QtGui.QSpinBox(self)
+		self.spAl1.setRange(0, 1)
+		self.spAl1.setSingleStep(1)
+
+		self.slAl1 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+		self.slAl1.setMinimum(0)
+		self.slAl1.setMaximum(100)
+		self.slAl1.setValue(0)
+		self.slAl1.setTickInterval(10)
+		
+
+		grid.addWidget(self.spAu0)
+		grid.addWidget(self.slAu0)
+		grid.addWidget(self.spAu1)
+		grid.addWidget(self.slAu1)
+		grid.addWidget(self.spAl0)
+		grid.addWidget(self.slAl0)
+		grid.addWidget(self.spAl1)
+		grid.addWidget(self.slAl1)
+		grid.addWidget(btnR)
+		grid.addWidget(btnQ)
+
+
+run()
