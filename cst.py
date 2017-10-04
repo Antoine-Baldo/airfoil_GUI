@@ -38,6 +38,7 @@ class Window(QtGui.QDialog):
 			ax = self.fig.add_subplot(111)
 			ax.clear()
 			ax.plot(x, y, '*-')
+			self.canvas.draw()
 
 		grid = QtGui.QGridLayout()
 		self.setLayout(grid)
