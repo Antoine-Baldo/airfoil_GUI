@@ -27,20 +27,21 @@ class Window(QtGui.QDialog):
 
 		def CSTMOD():
 			chord = 1.
+			n = 200
+			x = create_x(chord, n, distribution = 'polar')
+			ax = self.fig.add_subplot(111)
 
-			x = create_x(chord, n = 20, distribution = 'polar')
+			V_Au0 = self.slAu0.value()
+			V_Au1 = self.slAu1.value()
+			V_Al0 = self.slAl0.value()
+			V_Al1 = self.slAl1.value()
+			V_Deltasz = self.slDelta.value()
 
-			# V_Au0 = self.slAu0.value()
-			# V_Au1 = self.slAu1.value()
-			# V_Al0 = self.slAl0.value()
-			# V_Al1 = self.slAl1.value()
-			# V_Deltasz = self.slDelta.value()
-
-			V_Au0 = 15
-			V_Au1 = 20
-			V_Al0 = 22
-			V_Al1 = 9
-			V_Deltasz = 30
+			# V_Au0 = 15
+			# V_Au1 = 20
+			# V_Al0 = 22
+			# V_Al1 = 9
+			# V_Deltasz = 30
 
 			Au0 = (float(V_Au0)/100)
 			Au1 = (float(V_Au1)/100)
@@ -49,11 +50,15 @@ class Window(QtGui.QDialog):
 			Deltasz = (float(V_Deltasz)/1000)
 
 			cst = CST(x = x,c = 1.,deltasz = [Deltasz, Deltasz],Au = [Au0, Au1], Al = [Al0,Al1])
+
 			print 'cst:'
 			pprint (cst)
-			ax = self.fig.add_subplot(111)
+
+			data1 = [float(cst['l'][k]) for k in range(n)]
+			data2 = [float(cst['u'][k]) for k in range(n)]
+			
 			ax.clear()
-			ax.plot(cst, '*-')
+			ax.plot(data1, data2, '*-')
 			self.canvas.draw()
 
 		grid = QtGui.QGridLayout()
@@ -76,7 +81,7 @@ class Window(QtGui.QDialog):
 
 		self.slDelta = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.slDelta.setMinimum(0)
-		self.slDelta.setMaximum(100)
+		self.slDelta.setMaximum(150)
 		self.slDelta.setValue(0)
 		self.slDelta.setTickPosition(QtGui.QSlider.TicksBelow)
 		self.slDelta.setTickInterval(10)
@@ -88,7 +93,7 @@ class Window(QtGui.QDialog):
 		self.spAu0.setSingleStep(1)
 
 		self.slAu0 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-		self.slAu0.setMinimum(20)
+		self.slAu0.setMinimum(0)
 		self.slAu0.setMaximum(100)
 		self.slAu0.setValue(0)
 		self.slAu0.setTickInterval(10)
@@ -127,7 +132,7 @@ class Window(QtGui.QDialog):
 		self.spAl1.setSingleStep(1)
 
 		self.slAl1 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-		self.slAl1.setMinimum(9)
+		self.slAl1.setMinimum(0)
 		self.slAl1.setMaximum(100)
 		self.slAl1.setValue(0)
 		self.slAl1.setTickInterval(10)
