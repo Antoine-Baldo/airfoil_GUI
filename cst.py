@@ -125,10 +125,6 @@ class Window(QtGui.QDialog):
 		self.slAl1.setTickInterval(10)
 		self.slAl1.setTickPosition(QtGui.QSlider.TicksBelow)
 
-		self.sptest = QtGui.QSpinBox(self)
-		self.sptest.setRange(0, 10)
-		self.sptest.setSingleStep(0.1)
-
 		self.slDelta.valueChanged.connect(self.spDelta.setValue)
 		self.spDelta.valueChanged.connect(self.slDelta.setValue)
 
@@ -145,7 +141,6 @@ class Window(QtGui.QDialog):
 		self.spAl1.valueChanged.connect(self.slAl1.setValue)
 
 		grid.addWidget(self.canvas)
-		grid.addWidget(self.sptest)
 		grid.addWidget(LabelDelta)
 		grid.addWidget(self.spDelta)
 		grid.addWidget(self.slDelta)
