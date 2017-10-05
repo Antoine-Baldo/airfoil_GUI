@@ -161,7 +161,7 @@ class Window(QtGui.QDialog):
 		grid.addWidget(self.spAl1)
 		grid.addWidget(self.slAl1)
 		grid.addWidget(btnR)
-		# grid.addWidget(btnQ)
+		grid.addWidget(btnQ)
 		grid.addWidget(self.toolbar)
 
 run()
