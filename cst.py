@@ -27,20 +27,22 @@ class Window(QtGui.QDialog):
 
 		def CSTMOD():
 			chord = 1.
+
 			x = create_x(chord, n = 20, distribution = 'polar')
+
 			V_Au0 = self.slAu0.value()
 			V_Au1 = self.slAu1.value()
 			V_Al0 = self.slAl0.value()
 			V_Al1 = self.slAl1.value()
-			V_Deltasz0 = self.slDelta.value()
+			V_Deltasz = self.slDelta.value()
 
 			Au0 = (float(V_Au0)/100)
 			Au1 = (float(V_Au1)/100)
 			Al0 = (float(V_Al0)/100)
 			Al1 = (float(V_Al1)/100)
-			Deltasz0 = (float(V_Au0)/1000)
+			Deltasz = (float(V_Deltasz)/1000)
 
-			y = CST(x=x,c=1.,deltasz = [Deltasz0, Deltasz0],Au = [Au0, Au1], Al = [Al0,Al1])
+			y = CST(x=x,c=1.,deltasz = [Deltasz, Deltasz],Au = [Au0, Au1], Al = [Al0,Al1])
 			pprint (x)
 			pprint (y)
 			ax = self.fig.add_subplot(111)
