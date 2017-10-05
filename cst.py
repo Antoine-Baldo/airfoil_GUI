@@ -42,8 +42,10 @@ class Window(QtGui.QDialog):
 			Al1 = (float(V_Al1)/100)
 			Deltasz = (float(V_Deltasz)/1000)
 
-			y = CST(x=x,c=1.,deltasz = [Deltasz, Deltasz],Au = [Au0, Au1], Al = [Al0,Al1])
+			y = CST(x = x,c = 1.,deltasz = [Deltasz, Deltasz],Au = [Au0, Au1], Al = [Al0,Al1])
+			print 'X:'
 			pprint (x)
+			print 'Y:'
 			pprint (y)
 			ax = self.fig.add_subplot(111)
 			ax.clear()
