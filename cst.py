@@ -58,7 +58,8 @@ class Window(QtGui.QDialog):
 			data2 = [float(cst['u'][k]) for k in range(n)]
 			
 			ax.clear()
-			ax.plot(data1, data2, '*-')
+			ax.plot(x, data1, '*-')
+			ax.plot(x, data2, '*-')
 			self.canvas.draw()
 
 		grid = QtGui.QGridLayout()
