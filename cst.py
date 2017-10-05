@@ -76,7 +76,7 @@ class Window(QtGui.QDialog):
 		LabelDelta = QtGui.QLabel("Deltasz (x0.001):")
 
 		self.spDelta = QtGui.QSpinBox(self)
-		self.spDelta.setRange(0, 100)
+		self.spDelta.setRange(0, 150)
 		self.spDelta.setSingleStep(1)
 
 		self.slDelta = QtGui.QSlider(QtCore.Qt.Horizontal, self)
@@ -89,12 +89,12 @@ class Window(QtGui.QDialog):
 		LabelAu0 = QtGui.QLabel("Au0 (x0.01):")
 
 		self.spAu0 = QtGui.QSpinBox(self)
-		self.spAu0.setRange(0, 100)
+		self.spAu0.setRange(0, 300)
 		self.spAu0.setSingleStep(1)
 
 		self.slAu0 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.slAu0.setMinimum(0)
-		self.slAu0.setMaximum(100)
+		self.slAu0.setMaximum(300)
 		self.slAu0.setValue(0)
 		self.slAu0.setTickInterval(10)
 		self.slAu0.setTickPosition(QtGui.QSlider.TicksBelow)
@@ -102,12 +102,12 @@ class Window(QtGui.QDialog):
 		LabelAu1 = QtGui.QLabel("Au1 (x0.01):")
 
 		self.spAu1 = QtGui.QSpinBox(self)
-		self.spAu1.setRange(0, 100)
+		self.spAu1.setRange(0, 300)
 		self.spAu1.setSingleStep(1)
 
 		self.slAu1 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.slAu1.setMinimum(0)
-		self.slAu1.setMaximum(100)
+		self.slAu1.setMaximum(300)
 		self.slAu1.setValue(0)
 		self.slAu1.setTickInterval(10)
 		self.slAu1.setTickPosition(QtGui.QSlider.TicksBelow)
@@ -115,12 +115,12 @@ class Window(QtGui.QDialog):
 		LabelAl0 = QtGui.QLabel("Al0 (x0.01):")
 
 		self.spAl0 = QtGui.QSpinBox(self)
-		self.spAl0.setRange(0, 100)
+		self.spAl0.setRange(0, 300)
 		self.spAl0.setSingleStep(1)
 
 		self.slAl0 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.slAl0.setMinimum(0)
-		self.slAl0.setMaximum(100)
+		self.slAl0.setMaximum(300)
 		self.slAl0.setValue(0)
 		self.slAl0.setTickInterval(10)
 		self.slAl0.setTickPosition(QtGui.QSlider.TicksBelow)
@@ -128,12 +128,12 @@ class Window(QtGui.QDialog):
 		LabelAl1 = QtGui.QLabel("Al1 (x0.01):")
 
 		self.spAl1 = QtGui.QSpinBox(self)
-		self.spAl1.setRange(0, 100)
+		self.spAl1.setRange(0, 300)
 		self.spAl1.setSingleStep(1)
 
 		self.slAl1 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.slAl1.setMinimum(0)
-		self.slAl1.setMaximum(100)
+		self.slAl1.setMaximum(300)
 		self.slAl1.setValue(0)
 		self.slAl1.setTickInterval(10)
 		self.slAl1.setTickPosition(QtGui.QSlider.TicksBelow)
