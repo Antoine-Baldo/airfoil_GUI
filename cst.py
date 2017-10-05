@@ -127,6 +127,8 @@ class Window(QtGui.QDialog):
 		self.slAl1.setTickInterval(10)
 		self.slAl1.setTickPosition(QtGui.QSlider.TicksBelow)
 
+		self.toolbar = NavigationToolbar(self.canvas, self)
+
 		self.slDelta.valueChanged.connect(self.spDelta.setValue)
 		self.spDelta.valueChanged.connect(self.slDelta.setValue)
 
@@ -159,6 +161,7 @@ class Window(QtGui.QDialog):
 		grid.addWidget(self.spAl1)
 		grid.addWidget(self.slAl1)
 		grid.addWidget(btnR)
-		grid.addWidget(btnQ)
+		# grid.addWidget(btnQ)
+		grid.addWidget(self.toolbar)
 
 run()
