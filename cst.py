@@ -160,19 +160,10 @@ class Window(QtGui.QDialog):
 		self.spAl1.valueChanged.connect(self.slAl1.setValue)
 
 		self.slDelta.valueChanged.connect(CSTMOD)
-		self.spDelta.valueChanged.connect(CSTMOD)
-
 		self.slAu0.valueChanged.connect(CSTMOD)
-		self.spAu0.valueChanged.connect(CSTMOD)
-
 		self.slAu1.valueChanged.connect(CSTMOD)
-		self.spAu1.valueChanged.connect(CSTMOD)
-
 		self.slAl0.valueChanged.connect(CSTMOD)
-		self.spAl0.valueChanged.connect(CSTMOD)
-
 		self.slAl1.valueChanged.connect(CSTMOD)
-		self.spAl1.valueChanged.connect(CSTMOD)
 
 		grid.addWidget(self.canvas)
 		grid.addWidget(LabelDelta)
