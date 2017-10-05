@@ -9,6 +9,8 @@ from matplotlib.figure import Figure
 import numpy
 from PyQt4 import QtGui, QtCore
 
+# https://stackoverflow.com/questions/20632841/qt-horizontalslider-send-float-values
+
 def run():
 	app = QtGui.QApplication(sys.argv)
 	GUI = Window()
@@ -26,11 +28,17 @@ class Window(QtGui.QDialog):
 		def CSTMOD():
 			chord = 1.
 			x = create_x(chord, n = 20, distribution = 'polar')
-			Au0 = self.slAu0.value()
-			Au1 = self.slAu1.value()
-			Al0 = self.slAl0.value()
-			Al1 = self.slAl1.value()
-			Deltasz0 = self.slDelta.value()
+			V_Au0 = self.slAu0.value()
+			V_Au1 = self.slAu1.value()
+			V_Al0 = self.slAl0.value()
+			V_Al1 = self.slAl1.value()
+			V_Deltasz0 = self.slDelta.value()
+
+			Au0 = (float(V_Au0)/100)
+			Au1 = (float(V_Au1)/100)
+			Al0 = (float(V_Al0)/100)
+			Al1 = (float(V_Al1)/100)
+			Deltasz0 = (float(V_Au0)/1000)
 
 			y = CST(x=x,c=1.,deltasz = [Deltasz0, Deltasz0],Au = [Au0, Au1], Al = [Al0,Al1])
 			pprint (x)
@@ -117,6 +125,10 @@ class Window(QtGui.QDialog):
 		self.slAl1.setTickInterval(10)
 		self.slAl1.setTickPosition(QtGui.QSlider.TicksBelow)
 
+		self.sptest = QtGui.QSpinBox(self)
+		self.sptest.setRange(0, 10)
+		self.sptest.setSingleStep(0.1)
+
 		self.slDelta.valueChanged.connect(self.spDelta.setValue)
 		self.spDelta.valueChanged.connect(self.slDelta.setValue)
 
@@ -133,6 +145,7 @@ class Window(QtGui.QDialog):
 		self.spAl1.valueChanged.connect(self.slAl1.setValue)
 
 		grid.addWidget(self.canvas)
+		grid.addWidget(self.sptest)
 		grid.addWidget(LabelDelta)
 		grid.addWidget(self.spDelta)
 		grid.addWidget(self.slDelta)
