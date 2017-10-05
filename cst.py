@@ -31,8 +31,8 @@ class Window(QtGui.QDialog):
 			Al0 = self.slAl0.value()
 			Al1 = self.slAl1.value()
 			Deltasz0 = self.slDelta.value()
-			Deltasz1 = self.slDelta.value()
-			y = CST(x=x,c=1.,deltasz = Deltasz0,Au = Au0, Al = Al0)
+
+			y = CST(x=x,c=1.,deltasz = [Deltasz0, Deltasz0],Au = [Au0, Au1], Al = [Al0,Al1])
 			pprint (x)
 			pprint (y)
 			ax = self.fig.add_subplot(111)
@@ -55,15 +55,15 @@ class Window(QtGui.QDialog):
 		LabelDelta = QtGui.QLabel("Deltasz (x0.001):")
 
 		self.spDelta = QtGui.QSpinBox(self)
-		self.spDelta.setRange(0, 150)
+		self.spDelta.setRange(0, 100)
 		self.spDelta.setSingleStep(1)
 
 		self.slDelta = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.slDelta.setMinimum(0)
-		self.slDelta.setMaximum(150)
+		self.slDelta.setMaximum(100)
 		self.slDelta.setValue(0)
-		self.slDelta.setTickInterval(10)
 		self.slDelta.setTickPosition(QtGui.QSlider.TicksBelow)
+		self.slDelta.setTickInterval(10)
 
 		LabelAu0 = QtGui.QLabel("Au0 (x0.01):")
 
