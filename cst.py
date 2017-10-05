@@ -49,7 +49,7 @@ class Window(QtGui.QDialog):
 			Al1 = (float(V_Al1)/100)
 			Deltasz = (float(V_Deltasz)/1000)
 
-			cst = CST(x = x,c = 1.,deltasz = [Deltasz, Deltasz],Au = [Au0, Au1], Al = [Al0,Al1])
+			cst = CST(x = x,c = 1.,deltasz = [Deltasz/2, Deltasz/2],Au = [Au0, Au1], Al = [Al0,Al1])
 
 			print 'cst:'
 			pprint (cst)
