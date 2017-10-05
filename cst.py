@@ -30,11 +30,17 @@ class Window(QtGui.QDialog):
 
 			x = create_x(chord, n = 20, distribution = 'polar')
 
-			V_Au0 = self.slAu0.value()
-			V_Au1 = self.slAu1.value()
-			V_Al0 = self.slAl0.value()
-			V_Al1 = self.slAl1.value()
-			V_Deltasz = self.slDelta.value()
+			# V_Au0 = self.slAu0.value()
+			# V_Au1 = self.slAu1.value()
+			# V_Al0 = self.slAl0.value()
+			# V_Al1 = self.slAl1.value()
+			# V_Deltasz = self.slDelta.value()
+
+			V_Au0 = 15
+			V_Au1 = 20
+			V_Al0 = 22
+			V_Al1 = 9
+			V_Deltasz = 30
 
 			Au0 = (float(V_Au0)/100)
 			Au1 = (float(V_Au1)/100)
@@ -42,14 +48,12 @@ class Window(QtGui.QDialog):
 			Al1 = (float(V_Al1)/100)
 			Deltasz = (float(V_Deltasz)/1000)
 
-			y = CST(x = x,c = 1.,deltasz = [Deltasz, Deltasz],Au = [Au0, Au1], Al = [Al0,Al1])
-			print 'X:'
-			pprint (x)
-			print 'Y:'
-			pprint (y)
+			cst = CST(x = x,c = 1.,deltasz = [Deltasz, Deltasz],Au = [Au0, Au1], Al = [Al0,Al1])
+			print 'cst:'
+			pprint (cst)
 			ax = self.fig.add_subplot(111)
 			ax.clear()
-			ax.plot(x, y, '*-')
+			ax.plot(cst, '*-')
 			self.canvas.draw()
 
 		grid = QtGui.QGridLayout()
@@ -84,7 +88,7 @@ class Window(QtGui.QDialog):
 		self.spAu0.setSingleStep(1)
 
 		self.slAu0 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-		self.slAu0.setMinimum(0)
+		self.slAu0.setMinimum(20)
 		self.slAu0.setMaximum(100)
 		self.slAu0.setValue(0)
 		self.slAu0.setTickInterval(10)
@@ -123,7 +127,7 @@ class Window(QtGui.QDialog):
 		self.spAl1.setSingleStep(1)
 
 		self.slAl1 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-		self.slAl1.setMinimum(0)
+		self.slAl1.setMinimum(9)
 		self.slAl1.setMaximum(100)
 		self.slAl1.setValue(0)
 		self.slAl1.setTickInterval(10)
