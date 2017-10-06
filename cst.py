@@ -1,3 +1,6 @@
+
+"Programmed by Antoine BALDO"
+
 from airfoil_module import CST, create_x
 import sys
 import os 
