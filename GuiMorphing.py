@@ -21,7 +21,7 @@ def run():
 	# if n > 6:
 	# 	print "Number of points have to be between 1 and 6."
 	# 	quit()
-	n = 5
+	n = 4
 	GUI = Window(n)
 	GUI.show()
 	sys.exit(app.exec_())
