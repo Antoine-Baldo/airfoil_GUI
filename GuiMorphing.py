@@ -1,7 +1,7 @@
 
 "Programmed by Antoine BALDO"
 
-from morphing import calculate_dependent_shape_coefficients, calculate_shape_coefficients_tracing
+from morphing import calculate_shape_coefficients_tracing
 from airfoil_module import CST
 from CST_module import *
 import sys
@@ -9,19 +9,19 @@ import os
 from pprint import pprint
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.patches as mpatches
 from matplotlib.figure import Figure
-import numpy
+import math
+import numpy as np
 from PyQt4 import QtGui, QtCore
 
 def run():
 	app = QtGui.QApplication(sys.argv)
-	n = input("Number of points:\n")
+	# n = input("Number of points:\n")
 	# if n > 6:
 	# 	print "Number of points have to be between 1 and 6."
 	# 	quit()
-	n = 6
+	n = 5
 	GUI = Window(n)
 	GUI.show()
 	sys.exit(app.exec_())
@@ -35,14 +35,31 @@ class Window(QtGui.QDialog):
 		self.setWindowTitle('Morphing Control')
 		self.setWindowIcon(QtGui.QIcon('images.png'))
 
+		def Morphing_Mod():
+			N1 = 1.
+	        N2 = 1.
+	        tip_displacement = {'x': .1, 'y':1.}
+	        other_points = {'x': [0.01, -0.03, .05, 0.12], 'y':[0.1, 0.3, .5, 0.8]}
+	        A0 = -tip_displacement['x']
+	        # print A0
+	        A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
+	        y = np.linspace(0, tip_displacement['y'], 100000)
+	        x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
+	        # plt.plot(x,y)
+	        # plt.scatter(other_points['x'] + [tip_displacement['x']], 
+	        #             other_points['y'] + [tip_displacement['y']])
+	        # plt.gca().set_aspect('equal', adjustable='box')
+	        # plt.show()
+
+
 		grid = QtGui.QGridLayout()
 		self.setLayout(grid)
 
 		self.fig = Figure() 
 		self.canvas = FigureCanvas(self.fig)
 
-		btnQ = QtGui.QPushButton('Quit', self)
-		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
+		btnQ = QtGui.QPushButton('Start', self)
+		btnQ.clicked.connect(Morphing_Mod)
 
 		grid.addWidget(self.canvas)
 ######################################################################################################################################################
