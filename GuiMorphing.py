@@ -18,9 +18,10 @@ from PyQt4 import QtGui, QtCore
 def run():
 	app = QtGui.QApplication(sys.argv)
 	n = input("Number of points:\n")
-	if n > 6:
-		print "Number of points have to be between 1 and 6."
-		quit()
+	# if n > 6:
+	# 	print "Number of points have to be between 1 and 6."
+	# 	quit()
+	n = 6
 	GUI = Window(n)
 	GUI.show()
 	sys.exit(app.exec_())
@@ -30,8 +31,8 @@ class Window(QtGui.QDialog):
 	def __init__(self, n, parent=None):
 		super(Window, self).__init__(parent)
 		_fromUtf8 = QtCore.QString.fromUtf8
-		self.setGeometry(400,50,1200,980)
-		self.setWindowTitle('CST Control')
+		self.setGeometry(400,40,1200,980)
+		self.setWindowTitle('Morphing Control')
 		self.setWindowIcon(QtGui.QIcon('images.png'))
 
 		grid = QtGui.QGridLayout()
@@ -42,9 +43,6 @@ class Window(QtGui.QDialog):
 
 		btnQ = QtGui.QPushButton('Quit', self)
 		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
-
-		btnS = QtGui.QPushButton('Start', self)
-		btnS.clicked.connect(QtCore.QCoreApplication.instance().quit)
 
 		grid.addWidget(self.canvas)
 ######################################################################################################################################################
@@ -264,7 +262,6 @@ class Window(QtGui.QDialog):
 			self.spDeltaY6.valueChanged.connect(self.slDeltaY6.setValue)
 
 ######################################################################################################################################################
-		grid.addWidget(btnQ, 8,1)
-		grid.addWidget(btnS,8,0)
+		grid.addWidget(btnQ)
 
 run()
