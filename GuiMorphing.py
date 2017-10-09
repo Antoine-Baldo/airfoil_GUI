@@ -15,15 +15,19 @@ from matplotlib.figure import Figure
 import numpy
 from PyQt4 import QtGui, QtCore
 
-def run1():
+def run():
 	app = QtGui.QApplication(sys.argv)
-	GUI = Window()
+	n = input("Number of points:\n")
+	if n > 6:
+		print "Number of points have to be between 1 and 6."
+		quit()
+	GUI = Window(n)
 	GUI.show()
 	sys.exit(app.exec_())
 	QtCore.QCoreApplication.instance().quit
 
 class Window(QtGui.QDialog):
-	def __init__(self, parent=None):
+	def __init__(self, n, parent=None):
 		super(Window, self).__init__(parent)
 		_fromUtf8 = QtCore.QString.fromUtf8
 		self.setGeometry(400,50,1200,980)
@@ -39,12 +43,13 @@ class Window(QtGui.QDialog):
 		btnQ = QtGui.QPushButton('Quit', self)
 		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
 
+		btnS = QtGui.QPushButton('Start', self)
+		btnS.clicked.connect(QtCore.QCoreApplication.instance().quit)
+
 		grid.addWidget(self.canvas)
-
-		n = 5
-
 ######################################################################################################################################################
 		if n >= 1:
+			Labelx = QtGui.QLabel("     X:")
 			self.spDeltaX1 = QtGui.QSpinBox(self)
 			self.spDeltaX1.setRange(-100, 100)
 			self.spDeltaX1.setSingleStep(1)
@@ -56,6 +61,7 @@ class Window(QtGui.QDialog):
 			self.slDeltaX1.setTickPosition(QtGui.QSlider.TicksBelow)
 			self.slDeltaX1.setTickInterval(10)
 
+			Labely = QtGui.QLabel("     Y:")
 			self.spDeltaY1 = QtGui.QSpinBox(self)
 			self.spDeltaY1.setRange(-100, 100)
 			self.spDeltaY1.setSingleStep(1)
@@ -66,6 +72,9 @@ class Window(QtGui.QDialog):
 			self.slDeltaY1.setValue(0)
 			self.slDeltaY1.setTickPosition(QtGui.QSlider.TicksBelow)
 			self.slDeltaY1.setTickInterval(10)
+
+			grid.addWidget(Labelx,1,2)
+			grid.addWidget(Labely,1,3)
 
 			grid.addWidget(self.spDeltaX1, 2,2)
 			grid.addWidget(self.slDeltaX1,2,0)
@@ -253,6 +262,9 @@ class Window(QtGui.QDialog):
 
 			self.slDeltaY6.valueChanged.connect(self.spDeltaY6.setValue)
 			self.spDeltaY6.valueChanged.connect(self.slDeltaY6.setValue)
+
 ######################################################################################################################################################
-		grid.addWidget(btnQ)
-run1()
+		grid.addWidget(btnQ, 8,1)
+		grid.addWidget(btnS,8,0)
+
+run()
