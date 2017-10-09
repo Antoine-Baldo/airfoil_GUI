@@ -36,21 +36,20 @@ class Window(QtGui.QDialog):
 		self.setWindowIcon(QtGui.QIcon('images.png'))
 
 		def Morphing_Mod():
-			N1 = 1.
-	        N2 = 1.
-	        tip_displacement = {'x': .1, 'y':1.}
-	        other_points = {'x': [0.01, -0.03, .05, 0.12], 'y':[0.1, 0.3, .5, 0.8]}
-	        A0 = -tip_displacement['x']
-	        # print A0
-	        A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
-	        y = np.linspace(0, tip_displacement['y'], 100000)
-	        x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
-	        # plt.plot(x,y)
-	        # plt.scatter(other_points['x'] + [tip_displacement['x']], 
-	        #             other_points['y'] + [tip_displacement['y']])
-	        # plt.gca().set_aspect('equal', adjustable='box')
-	        # plt.show()
-
+			tip_displacement = {'x': .1, 'y':1.}
+			other_points = {'x': [0.01, -0.03, .05, 0.12], 'y':[0.1, 0.3, .5, 0.8]}
+			A0 = -tip_displacement['x']
+			print A0
+			ax = self.fig.add_subplot(111)
+			ax.set_xticks(np.arange(-.2,.2, 0.01))
+			A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
+			y = np.linspace(0, tip_displacement['y'], 100000)
+			x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
+			ax.plot(x,y)
+			ax.scatter(other_points['x'] + [tip_displacement['x']], 
+						other_points['y'] + [tip_displacement['y']])
+			ax.set_aspect('equal')
+			self.canvas.draw()
 
 		grid = QtGui.QGridLayout()
 		self.setLayout(grid)
