@@ -17,11 +17,11 @@ from PyQt4 import QtGui, QtCore
 
 def run():
 	app = QtGui.QApplication(sys.argv)
-	# n = input("Number of points:\n")
-	# if n > 6 or if n == 1:
-	# 	print "Number of points have to be between 2 and 6."
-	# 	quit()
 	n = 5
+	# n = input("Number of points:\n")
+	if n > 6 or n == 1:
+		print "Number of points have to be between 2 and 6."
+		quit()
 	GUI = Window(n)
 	GUI.show()
 	sys.exit(app.exec_())
