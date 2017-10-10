@@ -18,10 +18,10 @@ from PyQt4 import QtGui, QtCore
 def run():
 	app = QtGui.QApplication(sys.argv)
 	# n = input("Number of points:\n")
-	# if n > 6:
-	# 	print "Number of points have to be between 1 and 6."
+	# if n > 6 or if n == 1:
+	# 	print "Number of points have to be between 2 and 6."
 	# 	quit()
-	n = 4
+	n = 5
 	GUI = Window(n)
 	GUI.show()
 	sys.exit(app.exec_())
@@ -37,11 +37,32 @@ class Window(QtGui.QDialog):
 
 		def Morphing_Mod():
 			tip_displacement = {'x': .1, 'y':1.}
-			other_points = {'x': [0.01, -0.03, .05, 0.12], 'y':[0.1, 0.3, .5, 0.8]}
+
+			if n-1 >= 1:
+				DeltaX1 = float(self.slDeltaX1.value())/100
+				DeltaY1 = float(self.slDeltaY1.value())/100
+			if n-1 >= 2:
+				DeltaX2 = float(self.slDeltaX2.value())/100
+				DeltaY2 = float(self.slDeltaY2.value())/100
+			if n-1 >= 3:
+				DeltaX3 = float(self.slDeltaX3.value())/100
+				DeltaY3 = float(self.slDeltaY3.value())/100
+			if n-1 >= 4:
+				DeltaX4 = float(self.slDeltaX4.value())/100
+				DeltaY4 = float(self.slDeltaY4.value())/100
+			if n-1 >= 5:
+				DeltaX4 = float(self.slDeltaX4.value())/100
+				DeltaY4 = float(self.slDeltaY4.value())/100
+			if n-1 >= 6:
+				DeltaX6 = float(self.slDeltaX6.value())/100
+				DeltaY6 = float(self.slDeltaY6.value())/100
+
+			other_points = {'x': [0.01 + DeltaX1, -0.03 + DeltaX2, .05 + DeltaX3, 0.12 + DeltaX4], 'y':[0.1 + DeltaY1, 0.3 + DeltaY2, .5 + DeltaY3, 0.8 + DeltaY4]}
 			A0 = -tip_displacement['x']
 			print A0
 			ax = self.fig.add_subplot(111)
-			ax.set_xticks(np.arange(-.2,.2, 0.01))
+			# ax.set_xticks(np.arange(-.2,.2, 0.01))
+			ax.clear()
 			A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
 			y = np.linspace(0, tip_displacement['y'], 100000)
 			x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
@@ -57,12 +78,15 @@ class Window(QtGui.QDialog):
 		self.fig = Figure() 
 		self.canvas = FigureCanvas(self.fig)
 
-		btnQ = QtGui.QPushButton('Start', self)
-		btnQ.clicked.connect(Morphing_Mod)
+		btnQ = QtGui.QPushButton('Quit', self)
+		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
+
+		btnS = QtGui.QPushButton('Start', self)
+		btnS.clicked.connect(Morphing_Mod)
 
 		grid.addWidget(self.canvas)
 ######################################################################################################################################################
-		if n >= 1:
+		if n-1 >= 1:
 			Labelx = QtGui.QLabel("     X:")
 			self.spDeltaX1 = QtGui.QSpinBox(self)
 			self.spDeltaX1.setRange(-100, 100)
@@ -101,8 +125,11 @@ class Window(QtGui.QDialog):
 
 			self.slDeltaY1.valueChanged.connect(self.spDeltaY1.setValue)
 			self.spDeltaY1.valueChanged.connect(self.slDeltaY1.setValue)
+
+			self.slDeltaX1.valueChanged.connect(Morphing_Mod)
+			self.slDeltaY1.valueChanged.connect(Morphing_Mod)
 ######################################################################################################################################################
-		if n >= 2:
+		if n-1 >= 2:
 			self.spDeltaX2 = QtGui.QSpinBox(self)
 			self.spDeltaX2.setRange(-100, 100)
 			self.spDeltaX2.setSingleStep(1)
@@ -136,8 +163,11 @@ class Window(QtGui.QDialog):
 
 			self.slDeltaY2.valueChanged.connect(self.spDeltaY2.setValue)
 			self.spDeltaY2.valueChanged.connect(self.slDeltaY2.setValue)
+
+			self.slDeltaX2.valueChanged.connect(Morphing_Mod)
+			self.slDeltaY2.valueChanged.connect(Morphing_Mod)
 ######################################################################################################################################################
-		if n >= 3:
+		if n-1 >= 3:
 			self.spDeltaX3 = QtGui.QSpinBox(self)
 			self.spDeltaX3.setRange(-100, 100)
 			self.spDeltaX3.setSingleStep(1)
@@ -171,8 +201,11 @@ class Window(QtGui.QDialog):
 
 			self.slDeltaY3.valueChanged.connect(self.spDeltaY3.setValue)
 			self.spDeltaY3.valueChanged.connect(self.slDeltaY3.setValue)
+
+			self.slDeltaX3.valueChanged.connect(Morphing_Mod)
+			self.slDeltaY3.valueChanged.connect(Morphing_Mod)
 ######################################################################################################################################################
-		if n >= 4:
+		if n-1 >= 4:
 			self.spDeltaX4 = QtGui.QSpinBox(self)
 			self.spDeltaX4.setRange(-100, 100)
 			self.spDeltaX4.setSingleStep(1)
@@ -206,8 +239,11 @@ class Window(QtGui.QDialog):
 
 			self.slDeltaY4.valueChanged.connect(self.spDeltaY4.setValue)
 			self.spDeltaY4.valueChanged.connect(self.slDeltaY4.setValue)
+
+			self.slDeltaX4.valueChanged.connect(Morphing_Mod)
+			self.slDeltaY4.valueChanged.connect(Morphing_Mod)
 ######################################################################################################################################################
-		if n >= 5:
+		if n-1 >= 5:
 			self.spDeltaX5 = QtGui.QSpinBox(self)
 			self.spDeltaX5.setRange(-100, 100)
 			self.spDeltaX5.setSingleStep(1)
@@ -241,8 +277,11 @@ class Window(QtGui.QDialog):
 
 			self.slDeltaY5.valueChanged.connect(self.spDeltaY5.setValue)
 			self.spDeltaY5.valueChanged.connect(self.slDeltaY5.setValue)
+
+			self.slDeltaX5.valueChanged.connect(Morphing_Mod)
+			self.slDeltaY5.valueChanged.connect(Morphing_Mod)
 ######################################################################################################################################################
-		if n == 6:
+		if n-1 >= 6:
 			self.spDeltaX6 = QtGui.QSpinBox(self)
 			self.spDeltaX6.setRange(-100, 100)
 			self.spDeltaX6.setSingleStep(1)
@@ -277,7 +316,10 @@ class Window(QtGui.QDialog):
 			self.slDeltaY6.valueChanged.connect(self.spDeltaY6.setValue)
 			self.spDeltaY6.valueChanged.connect(self.slDeltaY6.setValue)
 
+			self.slDeltaX6.valueChanged.connect(Morphing_Mod)
+			self.slDeltaY6.valueChanged.connect(Morphing_Mod)
 ######################################################################################################################################################
+		grid.addWidget(btnS)
 		grid.addWidget(btnQ)
 
 run()
