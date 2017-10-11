@@ -17,12 +17,19 @@ from PyQt4 import QtGui, QtCore
 
 def run():
 	app = QtGui.QApplication(sys.argv)
-	n = 5
-	# n = input("Number of points:\n")
+	# n = 5
+	n = input("Number of points:\n")
 	if n > 6 or n == 1:
 		print "Number of points have to be between 2 and 6."
 		quit()
 	GUI = Window(n)
+	import inspect
+	a = inspect.getmembers(GUI)
+	print len(a), type(a), type(a[0][0]), a[0][0]
+	for i in range(len(a)):
+		if a[i][0][0] == 's':
+			print a[i][0]
+	BREAK
 	GUI.show()
 	sys.exit(app.exec_())
 	QtCore.QCoreApplication.instance().quit
@@ -41,31 +48,60 @@ class Window(QtGui.QDialog):
 			if n-1 >= 1:
 				DeltaX1 = float(self.slDeltaX1.value())/100
 				DeltaY1 = float(self.slDeltaY1.value())/100
+
+				other_points = {'x': [0.01 + DeltaX1], 'y':[0.1 + DeltaY1]}
+				A0 = -tip_displacement['x']
+				# print A0
+				A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
+				y = np.linspace(0, tip_displacement['y'], 100000)
+				x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
+
 			if n-1 >= 2:
 				DeltaX2 = float(self.slDeltaX2.value())/100
 				DeltaY2 = float(self.slDeltaY2.value())/100
+
+				other_points = {'x': [0.01 + DeltaX2, -0.03 + DeltaX1], 'y':[0.1 + DeltaY2, 0.3 + DeltaY1]}
+				A0 = -tip_displacement['x']
+				# print A0
+				A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
+				y = np.linspace(0, tip_displacement['y'], 100000)
+				x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
+
 			if n-1 >= 3:
 				DeltaX3 = float(self.slDeltaX3.value())/100
 				DeltaY3 = float(self.slDeltaY3.value())/100
+
+				other_points = {'x': [0.01 + DeltaX3, -0.03 + DeltaX2, .05 + DeltaX1], 'y':[0.1 + DeltaY3, 0.3 + DeltaY2, .5 + DeltaY1]}
+				A0 = -tip_displacement['x']
+				# print A0
+				A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
+				y = np.linspace(0, tip_displacement['y'], 100000)
+				x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
+
 			if n-1 >= 4:
 				DeltaX4 = float(self.slDeltaX4.value())/100
 				DeltaY4 = float(self.slDeltaY4.value())/100
-			if n-1 >= 5:
-				DeltaX4 = float(self.slDeltaX4.value())/100
-				DeltaY4 = float(self.slDeltaY4.value())/100
-			if n-1 >= 6:
-				DeltaX6 = float(self.slDeltaX6.value())/100
-				DeltaY6 = float(self.slDeltaY6.value())/100
 
-			other_points = {'x': [0.01 + DeltaX1, -0.03 + DeltaX2, .05 + DeltaX3, 0.12 + DeltaX4], 'y':[0.1 + DeltaY1, 0.3 + DeltaY2, .5 + DeltaY3, 0.8 + DeltaY4]}
-			A0 = -tip_displacement['x']
-			print A0
+				other_points = {'x': [0.01 + DeltaX4, -0.03 + DeltaX3, .05 + DeltaX2, 0.12 + DeltaX1], 'y':[0.1 + DeltaY4, 0.3 + DeltaY3, .5 + DeltaY2, 0.8 + DeltaY1]}
+				A0 = -tip_displacement['x']
+				# print A0
+				A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
+				y = np.linspace(0, tip_displacement['y'], 100000)
+				x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
+				
+			if n-1 >= 5:
+				DeltaX5 = float(self.slDeltaX5.value())/100
+				DeltaY5 = float(self.slDeltaY5.value())/100
+
+				other_points = {'x': [0.01 + DeltaX5, -0.03 + DeltaX3, .05 + DeltaX2, 0.12 + DeltaX1, 0.01 + DeltaX4], 'y':[0.1 + DeltaY5, 0.3 + DeltaY3, .5 + DeltaY2, 0.8 + DeltaY1, .17 + DeltaY4]}
+				A0 = -tip_displacement['x']
+				# print A0
+				A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
+				y = np.linspace(0, tip_displacement['y'], 100000)
+				x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
+
 			ax = self.fig.add_subplot(111)
-			# ax.set_xticks(np.arange(-.2,.2, 0.01))
 			ax.clear()
-			A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
-			y = np.linspace(0, tip_displacement['y'], 100000)
-			x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
 			ax.plot(x,y)
 			ax.scatter(other_points['x'] + [tip_displacement['x']], 
 						other_points['y'] + [tip_displacement['y']])
@@ -280,44 +316,6 @@ class Window(QtGui.QDialog):
 
 			self.slDeltaX5.valueChanged.connect(Morphing_Mod)
 			self.slDeltaY5.valueChanged.connect(Morphing_Mod)
-######################################################################################################################################################
-		if n-1 >= 6:
-			self.spDeltaX6 = QtGui.QSpinBox(self)
-			self.spDeltaX6.setRange(-100, 100)
-			self.spDeltaX6.setSingleStep(1)
-
-			self.slDeltaX6 = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-			self.slDeltaX6.setMinimum(-100)
-			self.slDeltaX6.setMaximum(100)
-			self.slDeltaX6.setValue(0)
-			self.slDeltaX6.setTickPosition(QtGui.QSlider.TicksBelow)
-			self.slDeltaX6.setTickInterval(10)
-
-			self.spDeltaY6 = QtGui.QSpinBox(self)
-			self.spDeltaY6.setRange(-100, 100)
-			self.spDeltaY6.setSingleStep(1)
-
-			self.slDeltaY6 = QtGui.QSlider(QtCore.Qt.Vertical, self)
-			self.slDeltaY6.setMinimum(-100)
-			self.slDeltaY6.setMaximum(100)
-			self.slDeltaY6.setValue(0)
-			self.slDeltaY6.setTickPosition(QtGui.QSlider.TicksBelow)
-			self.slDeltaY6.setTickInterval(10)
-
-			grid.addWidget(self.spDeltaX6,7,2)
-			grid.addWidget(self.slDeltaX6,7,0)
-			
-			grid.addWidget(self.spDeltaY6,7,3)
-			grid.addWidget(self.slDeltaY6,7,1)
-
-			self.slDeltaX6.valueChanged.connect(self.spDeltaX6.setValue)
-			self.spDeltaX6.valueChanged.connect(self.slDeltaX6.setValue)
-
-			self.slDeltaY6.valueChanged.connect(self.spDeltaY6.setValue)
-			self.spDeltaY6.valueChanged.connect(self.slDeltaY6.setValue)
-
-			self.slDeltaX6.valueChanged.connect(Morphing_Mod)
-			self.slDeltaY6.valueChanged.connect(Morphing_Mod)
 ######################################################################################################################################################
 		grid.addWidget(btnS)
 		grid.addWidget(btnQ)
