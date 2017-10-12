@@ -53,7 +53,7 @@ class Window(QtGui.QDialog):
 			Xt = getattr(self,attrSLX).value()
 			Yt = getattr(self,attrSLY).value()
 
-			tip_displacement = {'x': Xt, 'y': Yt}
+			tip_displacement = {'x':.1 + Xt, 'y':1. + Yt}
 
 			# other_points = {'x':[],'y':[]}
 
@@ -156,6 +156,10 @@ class Window(QtGui.QDialog):
 
 			getattr(self,attrSLY).valueChanged.connect(getattr(self,attrSPY).setValue)
 			getattr(self,attrSPY).valueChanged.connect(getattr(self,attrSLY).setValue)
+
+			getattr(self,attrSLX).valueChanged.connect(Morphing_Mod)
+			getattr(self,attrSLY).valueChanged.connect(Morphing_Mod)
+
 
 		LabelX= QtGui.QLabel("      X:")
 		LabelY= QtGui.QLabel("      Y:")
