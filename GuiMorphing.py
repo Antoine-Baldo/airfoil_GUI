@@ -57,26 +57,26 @@ class Window(QtGui.QDialog):
 
 			attrSLX = []
 			attrSLY = []
-			DeltaX = []
-			DeltaY = []
+			DX = []
+			DY = []
 
 			for i in range (n-1):
 				attrSLX.append('slDeltaX' + str(i+2))
 				attrSLY.append('slDeltaY' + str(i+2))
 
-				DeltaX.append(float((getattr(self,attrSLX[i])).value())/100)
-				DeltaY.append(float((getattr(self,attrSLY[i])).value())/100)
+				DX.append(float((getattr(self,attrSLX[i])).value())/100)
+				DY.append(float((getattr(self,attrSLY[i])).value())/100)
 
 			if n >= 2:
-				other_points = {'x': [0.01 + DeltaX[0]], 'y': [0.1 + DeltaY[0]]}
+				other_points = {'x': [0.01 + DX[0]], 'y': [0.1 + DY[0]]}
 			if n >= 3:
-				other_points = {'x': [DeltaX[1], .01 + DeltaX[0]], 'y': [0.1 + DeltaY[1], .3 + DeltaY[0]]}
+				other_points = {'x': [DX[1], .01 + DX[0]], 'y': [0.1 + DY[1], .3 + DY[0]]}
 			if n >= 4:
-				other_points = {'x': [0.01 + DeltaX[2], -0.03 + DeltaX[1], .05 + DeltaX[0]], 'y': [0.1 + DeltaY[2], 0.3 + DeltaY[1], .5 + DeltaY[0]]}
+				other_points = {'x': [0.01 + DX[2], -0.03 + DX[1], .05 + DX[0]], 'y': [0.1 + DY[2], 0.3 + DY[1], .5 + DY[0]]}
 			if n >= 5:
-				other_points = {'x': [0.01 + DeltaX[3], -0.03 + DeltaX[2], .05 + DeltaX[1], 0.12 + DeltaX[0]], 'y': [0.1 + DeltaY[3], 0.3 + DeltaY[2], .5 + DeltaY[1], 0.8 + DeltaY[0]]}
+				other_points = {'x': [0.01 + DX[3], -0.03 + DX[2], .05 + DX[1], 0.12 + DX[0]], 'y': [0.1 + DY[3], 0.3 + DY[2], .5 + DY[1], 0.8 + DY[0]]}
 			if n == 6:
-				other_points = {'x': [0.01 + DeltaX[4], -0.03 + DeltaX[2], .05 + DeltaX[1], 0.12 + DeltaX[0], 0.01 + DeltaX[3]], 'y': [0.1 + DeltaY[4], 0.3 + DeltaY[2], .5 + DeltaY[1], 0.8 + DeltaY[0], .17 + DeltaY[3]]}
+				other_points = {'x': [0.01 + DX[4], -0.03 + DX[2], .05 + DX[1], 0.12 + DX[0], 0.01 + DX[3]], 'y': [0.08 + DY[4], 0.3 + DY[2], .5 + DY[1], 0.8 + DY[0], .17 + DY[3]]}
 
 			A0 = -tip_displacement['x']
 			A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
