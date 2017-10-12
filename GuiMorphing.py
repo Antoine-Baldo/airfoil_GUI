@@ -86,8 +86,7 @@ class Window(QtGui.QDialog):
 			ax = self.fig.add_subplot(111)
 			ax.clear()
 			ax.plot(x,y)
-			ax.scatter(other_points['x'] + [tip_displacement['x']], 
-						other_points['y'] + [tip_displacement['y']])
+			ax.scatter(other_points['x'] + [tip_displacement['x']],other_points['y'] + [tip_displacement['y']])
 			ax.set_aspect('equal')
 			self.canvas.draw()
 
@@ -113,7 +112,7 @@ class Window(QtGui.QDialog):
 			getattr(self,attrSLX).setMaximum(50)
 			getattr(self,attrSLX).setValue(0)
 			getattr(self,attrSLX).setTickPosition(QtGui.QSlider.TicksBelow)
-			getattr(self,attrSLX).setTickInterval(10)
+			getattr(self,attrSLX).setTickInterval(5)
 
 			attrSLY = 'slDeltaY'+str(i+1)
 			setattr(self, attrSLY, QtGui.QSlider(QtCore.Qt.Vertical, self))
@@ -138,8 +137,8 @@ class Window(QtGui.QDialog):
 			getattr(self,attrSLX).valueChanged.connect(Morphing_Mod)
 			getattr(self,attrSLY).valueChanged.connect(Morphing_Mod)
 
-		LabelX= QtGui.QLabel("      X:")
-		LabelY= QtGui.QLabel("      Y:")
+		LabelX= QtGui.QLabel("     X:")
+		LabelY= QtGui.QLabel("     Y:")
 
 		grid.addWidget(LabelX,1,2)
 		grid.addWidget(LabelY,1,3)
