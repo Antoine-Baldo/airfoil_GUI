@@ -128,7 +128,7 @@ class Window(QtGui.QDialog):
 
 			ax.set_xlabel('$\psi^p$', fontsize = 14)
 			ax.set_ylabel(r'$\xi^p$', fontsize = 14)
-			ax.set_ylim([-0.06,0.17])
+			ax.set_ylim([-0.17,0.17])
 			ax.grid()
 			ax.set_aspect('equal', adjustable='box')
 			ax.legend(loc=1)
