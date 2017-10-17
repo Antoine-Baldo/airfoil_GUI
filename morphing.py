@@ -18,6 +18,7 @@ from CST_module import *
 inverted = False
 # Defines if basckwards or forwards morphing
 morphing_direction = 'forwards'
+# morphing_direction = 'backwards'
 	
 #==============================================================================
 # Calculate dependent shape function parameters
@@ -187,8 +188,8 @@ def calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, N1,
     
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
-    #testing = 'structurally_consistent'
-    testing = 'tracing'
+    testing = 'structurally_consistent'
+    # testing = 'tracing'
     
     if testing == 'tracing':
         N1 = 1.
@@ -244,7 +245,7 @@ if __name__ == '__main__':
         # AC_u4 = 0.17919              #Adimensional
         # AC_u5 = 0.19840             #Adimensional
         # Small
-        AC_u1 = 0.1487            #Adimensional
+        AC_u1 = 0.14870            #Adimensional
         AC_u2 = 0.10843          #Adimensional
         AC_u3 = 0.15084                #Adimensional
         AC_u4 = 0.10919              #Adimensional
