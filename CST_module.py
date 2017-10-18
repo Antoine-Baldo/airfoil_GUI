@@ -14,20 +14,20 @@ import math
 import numpy as np
 import warnings
 
-try:
-    from abaqus import *
-    in_Abaqus = True
-except:
-    in_Abaqus = False
+# try:
+#     from abaqus import *
+#     in_Abaqus = True
+# except:
+#     in_Abaqus = False
 
-if in_Abaqus != True:
-	from scipy.integrate import quad
-	from scipy.optimize import fsolve, minimize
-	from scipy import optimize
-	from scipy.optimize import differential_evolution
+# if in_Abaqus != True:
+from scipy.integrate import quad
+from scipy.optimize import fsolve, minimize
+from scipy import optimize
+from scipy.optimize import differential_evolution
 
 from airfoil_module import CST
-from xfoil_module import output_reader
+# from xfoil_module import output_reader
 
 # Bersntein Polynomial
 def K(r,n):

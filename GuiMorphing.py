@@ -45,7 +45,7 @@ class Window(QtGui.QDialog):
 
 		btnQ = QtGui.QPushButton('Quit', self)
 		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
-
+#######################################################################################
 		def Morphing_Mod():
 			attrSLX = 'slDeltaX' + str(1)
 			attrSLY = 'slDeltaY' + str(1)
@@ -79,7 +79,7 @@ class Window(QtGui.QDialog):
 				other_points = {'x': [0.01 + DX[4], -0.03 + DX[2], .05 + DX[1], 0.12 + DX[0], 0.01 + DX[3]], 'y': [0.08 + DY[4], 0.3 + DY[2], .5 + DY[1], 0.8 + DY[0], .17 + DY[3]]}
 
 			A0 = -tip_displacement['x']
-			A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1.)
+			A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, 1., 1., tip_displacement['y'])
 			y = np.linspace(0, tip_displacement['y'], 100000)
 			x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=1., N2=1.)
 
@@ -89,7 +89,7 @@ class Window(QtGui.QDialog):
 			ax.scatter(other_points['x'] + [tip_displacement['x']],other_points['y'] + [tip_displacement['y']])
 			ax.set_aspect('equal')
 			self.canvas.draw()
-
+#######################################################################################
 		btnS = QtGui.QPushButton('Start', self)
 		btnS.clicked.connect(Morphing_Mod)
 
@@ -137,12 +137,12 @@ class Window(QtGui.QDialog):
 			getattr(self,attrSLX).valueChanged.connect(Morphing_Mod)
 			getattr(self,attrSLY).valueChanged.connect(Morphing_Mod)
 
-		LabelX= QtGui.QLabel("     X:")
-		LabelY= QtGui.QLabel("     Y:")
+	LabelX= QtGui.QLabel("     X:")
+	LabelY= QtGui.QLabel("     Y:")
 
-		grid.addWidget(LabelX,1,2)
-		grid.addWidget(LabelY,1,3)
+	grid.addWidget(LabelX,1,2)
+	grid.addWidget(LabelY,1,3)
 
-		grid.addWidget(btnS)
-		grid.addWidget(btnQ)
+	grid.addWidget(btnS)
+	grid.addWidget(btnQ)
 run()
