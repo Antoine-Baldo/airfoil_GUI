@@ -22,7 +22,9 @@ Au_P =  [0.10887, 0.1187, 0.07843, 0.12084, 0.07919, 0.09840]
 Al_P =  [0.11117, 0.1000, 0.1239, 0.06334, 0.11539, 0.10400]
 
 Valpsispar = [0.2,0.3,0.5,0.7,0.9]
+
 ###################################################################################################################
+# tracing :
 ###################################################################################################################
 tip_displacement = {'x':ValX[0], 'y':ValY[0]}
 chord =tip_displacement['x']
@@ -41,6 +43,7 @@ x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=0.
 print tip_displacement
 
 ###################################################################################################################
+# structurally_consistent :
 ###################################################################################################################
 
 n = len(Au_P) - 1
@@ -72,7 +75,7 @@ plt.plot(x, y['l'],'b',label = None, lw=2)
 
 # Print shape for parent
 x = np.linspace(0, chord, 100000)
-y = CST(x, c_P, deltasz= [deltaz/2., deltaz/2.],  Al= Al_P, Au =Au_P)
+y = CST(x, chord, deltasz= [deltaz/2., deltaz/2.],  Al= Al_P, Au =Au_P)
 plt.plot(x, y['u'],'r--',label='Parent', lw=2)
 plt.plot(x, y['l'],'r--',label = None, lw=2)
 
@@ -86,7 +89,7 @@ if morphing_direction == 'forwards':
 		psi_parent_j = psi_spars[j]
 		# Calculate psi at landing
 		# psi_baseline, Au_baseline, Au_goal, deltaz, c_baseline, c_goal
-		psi_children_j = calculate_psi_goal(psi_parent_j, Au_P, Au_C, deltaz, c_P, c_C)
+		psi_children_j = calculate_psi_goal(psi_parent_j, Au_P, Au_C, deltaz, chord, c_C)
 		x_children_j = psi_children_j*c_C
 
 		# Calculate xi at landing
@@ -98,16 +101,23 @@ if morphing_direction == 'forwards':
 		# Print spars for children
 		plt.plot([x_children_j, x_children_j - spar_thicknesses[j]*s[0]],[y_children_j, y_children_j - spar_thicknesses[j]*s[1]], c = 'b', lw=2, label=None)
 		psi_flats.append(x_children_j - spar_thicknesses[j]*s[0])
-		y = CST(np.array([psi_parent_j*c_P]), c_P, deltasz=[deltaz/2., deltaz/2.], Al= Al_P, Au =Au_P)
+		y = CST(np.array([psi_parent_j*chord]), chord, deltasz=[deltaz/2., deltaz/2.], Al= Al_P, Au =Au_P)
 
 		intersections_x_children.append(x_children_j - spar_thicknesses[j]*s[0])
 		intersections_y_children.append(y_children_j - spar_thicknesses[j]*s[1])
 
 		# Print spars for parents
-		plt.plot([psi_parent_j*c_P, psi_parent_j*c_P], [y['u'], y['u']-spar_thicknesses[j]], 'r--', lw=2, label = None)
+		plt.plot([psi_parent_j*chord, psi_parent_j*chord], [y['u'], y['u']-spar_thicknesses[j]], 'r--', lw=2, label = None)
 
-		intersections_x_parent.append(psi_parent_j*c_P)
+		intersections_x_parent.append(psi_parent_j*chord)
 		intersections_y_parent.append(y['u']-spar_thicknesses[j])
 
+plt.xlabel('$\psi^p$', fontsize = 14)
+plt.ylabel(r'$\xi^p$', fontsize = 14)
+plt.ylim([-0.06,0.17])
+plt.grid()
+plt.gca().set_aspect('equal', adjustable='box')
+plt.legend(loc=1)
+plt.show()
 ###################################################################################################################
 ###################################################################################################################
