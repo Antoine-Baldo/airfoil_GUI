@@ -10,34 +10,34 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import numpy as np
 from PyQt4 import QtGui, QtCore
+import matplotlib.pyplot as plt
 
 morphing_direction = 'forwards'
 inverted = False
 
-ValX = [100,10 ,30,50,70]
-ValY = [0,2,3,4,5]
+ValX = [1,0.1 ,0.3,0.5,0.7]
+ValY = [0,0.02,0.03,0.04,0.05]
 
 Au_P =  [0.10887, 0.1187, 0.07843, 0.12084, 0.07919, 0.09840]
 Al_P =  [0.11117, 0.1000, 0.1239, 0.06334, 0.11539, 0.10400]
 
-Valpsispar = [0.2,.3,.5,.7,.9]
+Valpsispar = [0.2,0.3,0.5,0.7,0.9]
 ###################################################################################################################
 ###################################################################################################################
-tip_displacement = {'x':ValX[0], 'y':ValX[1]}
+tip_displacement = {'x':ValX[0], 'y':ValY[0]}
 chord =tip_displacement['x']
 
 deltaz = tip_displacement['y']
 
-other_points = {'x': [ValX[0],ValX[1],ValX[2],ValX[3]],'y': [ValY[0],ValY[1],ValY[2],ValY[3]]}
+other_points = {'x': [ValX[1],ValX[2],ValX[3],ValX[4]],'y': [ValY[1],ValY[2],ValY[3],ValY[4]]}
 
 print Au_P[0], tip_displacement, other_points,chord, deltaz
 A = calculate_shape_coefficients_tracing(Au_P[0], tip_displacement, other_points, 0.5, 1.,chord, deltaz)
 print 'A:'
 print A
-BREAK
+# BREAK
 y = np.linspace(0, tip_displacement['y'], 100000)
 x = CST(y, tip_displacement['y'], deltasz= tip_displacement['x'],  Au = A, N1=0.5, N2=1.)
-print X,Y
 print tip_displacement
 
 ###################################################################################################################
