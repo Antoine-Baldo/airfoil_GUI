@@ -88,6 +88,8 @@ class Window(QtGui.QDialog):
 			ax.plot(x,y)
 			ax.scatter(other_points['x'] + [tip_displacement['x']],other_points['y'] + [tip_displacement['y']])
 			ax.set_aspect('equal')
+			ax.set_ylim([0,1.1])
+			ax.set_xlim([-0.5,.5])
 			self.canvas.draw()
 #######################################################################################
 		btnS = QtGui.QPushButton('Start', self)
@@ -98,7 +100,7 @@ class Window(QtGui.QDialog):
 		for i in range(n):
 			attrSPX = 'spDeltaX'+str(i+1)
 			setattr(self, attrSPX, QtGui.QSpinBox(self))
-			getattr(self,attrSPX).setRange(-50,50)
+			getattr(self,attrSPX).setRange(-25,25)
 			getattr(self,attrSPX).setSingleStep(1)
 
 			attrSPY = 'spDeltaY'+str(i+1)
@@ -108,8 +110,8 @@ class Window(QtGui.QDialog):
 
 			attrSLX = 'slDeltaX'+str(i+1)
 			setattr(self, attrSLX, QtGui.QSlider(QtCore.Qt.Horizontal, self))
-			getattr(self,attrSLX).setMinimum(-50)
-			getattr(self,attrSLX).setMaximum(50)
+			getattr(self,attrSLX).setMinimum(-25)
+			getattr(self,attrSLX).setMaximum(25)
 			getattr(self,attrSLX).setValue(0)
 			getattr(self,attrSLX).setTickPosition(QtGui.QSlider.TicksBelow)
 			getattr(self,attrSLX).setTickInterval(5)
