@@ -32,8 +32,22 @@ class Window(QtGui.QDialog):
 			inverted = False
 
 			# Points where children should be
-			ValX = [0.1 ,0.25,0.42,0.65,.9]
-			ValY = [0.02,0.03,0.04,0.05,.05]
+			# ValX = [0.1 ,0.25,0.42,0.65,.9]
+			# ValY = [0.02,0.03,0.04,0.05,.05]
+
+			attrSPX = []
+			attrSPY = []
+			ValX = []
+			ValY = []
+
+			for i in range (5):
+				attrSPX.append('spX' + str(i+1))
+				attrSPY.append('spY' + str(i+1))
+
+				ValX.append(float((getattr(self,attrSPX[i])).value())/100)
+				ValY.append(float((getattr(self,attrSPY[i])).value())/100)
+			print "ValX:", ValX
+			print "ValY:", ValY
 
 			# Geoemtric propeties for parent
 			c_P = 1.
@@ -45,6 +59,11 @@ class Window(QtGui.QDialog):
 			# Initialize values before iteration
 			AC_u0 = Au_P[0]
 			c_C = c_P
+
+			# Initialize the Figure
+			ax = self.fig.add_subplot(111)
+			ax.clear()
+
 			# Iterative method is necessary because the value of Au_C is not known
 			tol = 1e-6
 			error = 99999.
@@ -66,14 +85,14 @@ class Window(QtGui.QDialog):
 			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			x = np.linspace(0, c_C, 1000)
 			y = CST(x, c_C, deltasz= [deltaz/2., deltaz/2.],  Al= Al_C, Au =Au_C)
-			plt.plot(x, y['u'],'b',label = 'Children', lw=2)
-			plt.plot(x, y['l'],'b',label = None, lw=2)
+			ax.plot(x, y['u'],'b',label = 'Children', lw=2)
+			ax.plot(x, y['l'],'b',label = None, lw=2)
 
 			# Print shape for parent
 			x = np.linspace(0, c_P, 1000)
 			y = CST(x, c_P, deltasz= [deltaz/2., deltaz/2.],  Al= Al_P, Au =Au_P)
-			plt.plot(x, y['u'],'r--',label='Parent', lw=2)
-			plt.plot(x, y['l'],'r--',label = None, lw=2)
+			ax.plot(x, y['u'],'r--',label='Parent', lw=2)
+			ax.plot(x, y['l'],'r--',label = None, lw=2)
 
 			if morphing_direction == 'forwards':
 				psi_flats = []
@@ -95,7 +114,7 @@ class Window(QtGui.QDialog):
 					s = calculate_spar_direction(psi_spars[j], Au_P, Au_C, deltaz, c_C)
 
 					# Print spars for children
-					plt.plot([x_children_j, x_children_j - spar_thicknesses[j]*s[0]],[y_children_j, y_children_j - spar_thicknesses[j]*s[1]], c = 'b', lw=2, label=None)
+					ax.plot([x_children_j, x_children_j - spar_thicknesses[j]*s[0]],[y_children_j, y_children_j - spar_thicknesses[j]*s[1]], c = 'b', lw=2, label=None)
 					psi_flats.append(x_children_j - spar_thicknesses[j]*s[0])
 					y = CST(np.array([psi_parent_j*c_P]), c_P, deltasz=[deltaz/2., deltaz/2.], Al= Al_P, Au =Au_P)
 
@@ -103,46 +122,43 @@ class Window(QtGui.QDialog):
 					intersections_y_children.append(y_children_j - spar_thicknesses[j]*s[1])
 
 					# Print spars for parents
-					plt.plot([psi_parent_j*c_P, psi_parent_j*c_P], [y['u'], y['u']-spar_thicknesses[j]], 'r--', lw=2, label = None)
+					ax.plot([psi_parent_j*c_P, psi_parent_j*c_P], [y['u'], y['u']-spar_thicknesses[j]], 'r--', lw=2, label = None)
 
 					intersections_x_parent.append(psi_parent_j*c_P)
 					intersections_y_parent.append(y['u']-spar_thicknesses[j])
 
-			plt.scatter([0]+ValX, [0]+ValY)
-			plt.xlabel('$\psi^p$', fontsize = 14)
-			plt.ylabel(r'$\xi^p$', fontsize = 14)
-			plt.ylim([-0.06,0.17])
-			plt.grid()
-			plt.gca().set_aspect('equal', adjustable='box')
-			plt.legend(loc=1)
-			plt.show()
+			ax.scatter([0]+ValX, [0]+ValY)
+			ax.set_xlabel('$\psi^p$', fontsize = 14)
+			ax.set_ylabel(r'$\xi^p$', fontsize = 14)
+			ax.set_ylim([-0.06,0.17])
+			ax.grid()
+			ax.set_aspect('equal', adjustable='box')
+			ax.legend(loc=1)
+			self.canvas.draw()
 
 		btnS = QtGui.QPushButton('Start', self)
 		btnS.clicked.connect(Morphing)
 
 		grid.addWidget(self.canvas,0,0,1,-1)
 
-		ValX = [100,10 ,30,50,70]
-		ValY = [0,2,3,4,5]
+		X = [10 ,25,42,65,90]
+		Y = [2,3,4,5,5]
 
 		for i in range(5):
 			attrSPX = 'spX'+str(i+1)
 			setattr(self, attrSPX, QtGui.QSpinBox(self))
 			getattr(self,attrSPX).setRange(-150,150)
 			getattr(self,attrSPX).setSingleStep(1)
-			getattr(self,attrSPX).setValue(ValX[i])
+			getattr(self,attrSPX).setValue(X[i])
 
 			attrSPY = 'spY'+str(i+1)
 			setattr(self, attrSPY, QtGui.QSpinBox(self))
 			getattr(self,attrSPY).setRange(-150,150)
 			getattr(self,attrSPY).setSingleStep(1)
-			getattr(self,attrSPY).setValue(ValY[i])
+			getattr(self,attrSPY).setValue(Y[i])
 
 			grid.addWidget(getattr(self,attrSPX),i+2,0)
 			grid.addWidget(getattr(self,attrSPY),i+2,1)
-
-			getattr(self,attrSPX).valueChanged.connect(Morphing)
-			getattr(self,attrSPY).valueChanged.connect(Morphing)
 
 		LabelX= QtGui.QLabel("X (/100):")
 		LabelY= QtGui.QLabel("Y (/100):")
