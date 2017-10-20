@@ -23,14 +23,14 @@ morphing_direction = 'forwards'
 #==============================================================================
 # Calculate dependent shape function parameters
 #==============================================================================
-def calculate_dependent_shape_coefficients(AC_u1, AC_u2, AC_u3, AC_u4, AC_u5,
+def calculate_dependent_shape_coefficients(Au_C_1_to_n,
                                            psi_spars, Au_P, Al_P, deltaz, c_P,
                                            morphing = 'backwards'):
     """Calculate  dependent shape coefficients for children configuration for a 4 order
     Bernstein polynomial and return the children upper, lower shape 
     coefficients, children chord and spar thicknesses. _P denotes parent parameters"""
     def calculate_AC_u0(AC_u0):
-        Au_C = [AC_u0, AC_u1, AC_u2, AC_u3, AC_u4, AC_u5]
+        Au_C = [AC_u0] + Au_C_1_to_n
         c_C = calculate_c_baseline(c_P, Au_C, Au_P, deltaz)
         return np.sqrt(c_P/c_C)*Au_P[0]
     
@@ -39,7 +39,7 @@ def calculate_dependent_shape_coefficients(AC_u1, AC_u2, AC_u3, AC_u4, AC_u5,
         K=math.factorial(n)/(math.factorial(r)*math.factorial(n-r))
         return K
     # Bernstein Polynomial order
-    n = 5
+    n = len(Au_C_1_to_n)
 
     # Find upper shape coefficient though iterative method since Au_0 is unknown
     # via fixed point iteration
@@ -53,15 +53,15 @@ def calculate_dependent_shape_coefficients(AC_u1, AC_u2, AC_u3, AC_u4, AC_u5,
         error = abs(AC_u0 - before)
 
     # Because the output is an array, need the extra [0]      
-    Au_C = [AC_u0, AC_u1, AC_u2, AC_u3, AC_u4, AC_u5]
+    Au_C = [AC_u0] + Au_C_1_to_n
     
     # Now that AC_u0 is known we can calculate the actual chord and AC_l0
     c_C = calculate_c_baseline(c_P, Au_C, Au_P, deltaz/c_P)
     AC_l0 = np.sqrt(c_P/c_C)*Al_P[0]
-    print '0 lower shape coefficient: ',AC_l0
-    print Au_C
+    # print '0 lower shape coefficient: ',AC_l0
     # Calculate thicknessed and tensor B for the constraint linear system problem
     spar_thicknesses = []
+    A0 = AC_u0 + AC_l0
     
     if morphing == 'backwards':
         b_list = np.zeros((n,1))
@@ -70,7 +70,7 @@ def calculate_dependent_shape_coefficients(AC_u1, AC_u2, AC_u3, AC_u4, AC_u5,
             #Calculate the spar thickness in meters from parent, afterwards, need to
             #adimensionalize for the goal airfoil by dividing by c_goal
             t_j = calculate_spar_distance(psi_spars[j], Au_C, Au_P, Al_P, deltaz, c_P)
-
+            
             spar_thicknesses.append(t_j)
             b_list[j] = (t_j/c_C - psi_j*deltaz/c_C)/((psi_j**0.5)*(1-psi_j)) - A0*(1-psi_j)**n
 
@@ -106,7 +106,7 @@ def calculate_dependent_shape_coefficients(AC_u1, AC_u2, AC_u3, AC_u4, AC_u5,
         xi_upper_children = CST(psi_upper_children, 1., deltasz= [deltaz/2./c_C, deltaz/2./c_C],  Al= Au_C, Au =Au_C)
         xi_upper_children = xi_upper_children['u']
 
-        print xi_upper_children
+        # print xi_upper_children
         
         #Debugging section
         x = np.linspace(0,1)
@@ -139,8 +139,8 @@ def calculate_dependent_shape_coefficients(AC_u1, AC_u2, AC_u3, AC_u4, AC_u5,
                 #coherent for equations
                 r = i +1
                 F[j][i] = K(r,n)*(psi_lower_children[j]**r)*(1-psi_lower_children[j])**(n-r)
-        print F
-        print f
+        # print F
+        # print f
         A_lower = np.dot(inv(F), f)
 
         Al_C = [AC_l0]
@@ -148,7 +148,7 @@ def calculate_dependent_shape_coefficients(AC_u1, AC_u2, AC_u3, AC_u4, AC_u5,
             Al_C.append(A_lower[i][0]) #extra [0] is necessary because of array
     return Au_C, Al_C, c_C, spar_thicknesses
 
-def calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, N1, N2, chord = 1., EndThickness = 0):   
+def calculate_shape_coefficients_tracing(A0, x, y, N1, N2, chord = 1., EndThickness = 0):   
     """
     inputs:
         - tip_displacement: {'x': value, 'y': value}
@@ -160,10 +160,10 @@ def calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, N1,
         K=math.factorial(n)/(math.factorial(r)*math.factorial(n-r))
         return K
  
-    n = len(other_points['x'])
+    n = len(x)
     
-    Psi = np.array(other_points['y'])/chord
-    Xi = np.array(other_points['x'])/chord
+    Psi = np.array(x)/chord
+    Xi = np.array(y)/chord
 	
     EndThickness = EndThickness/chord
     T = np.zeros((n,n))
@@ -174,19 +174,15 @@ def calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, N1,
             ii = i -1
             T[jj][ii] = K(i,n)* Psi[jj]**i * (1-Psi[jj])**(n-i)
         t[jj] = (Xi[jj] - Psi[jj]*EndThickness)/(Psi[jj]**N1*(1-Psi[jj])**N2) - A0*(1-Psi[jj])**n
-    print T
-    print t
-    print (Xi[ii] - Psi[ii]*EndThickness)/(Psi[ii]*(1-Psi[ii])) - A0
     # Calculate the inverse
     A = np.dot(inv(T), t)
     A = [A0] + list(A.transpose()[0])
-    print A
     return A
     
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
-    testing = 'structurally_consistent'
-    # testing = 'tracing'
+    # testing = 'structurally_consistent'
+    testing = 'tracing'
     
     if testing == 'tracing':
         N1 = 1.
@@ -195,7 +191,7 @@ if __name__ == '__main__':
         other_points = {'x': [0.01, -0.03, .05, 0.12], 'y':[0.1, 0.3, .5, 0.8]}
         A0 = -tip_displacement['x']
         print A0
-        A = calculate_shape_coefficients_tracing(A0, tip_displacement, other_points, N1, N2)
+        A = calculate_shape_coefficients_tracing(A0, other_points['y'], other_points['x'], N1, N2, chord = tip_displacement['y'], EndThickness = tip_displacement['x'])
         
         #plotting
         y = np.linspace(0, tip_displacement['y'], 100000)
