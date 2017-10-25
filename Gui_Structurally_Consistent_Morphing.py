@@ -5,15 +5,11 @@ from morphing import calculate_dependent_shape_coefficients
 from airfoil_module import CST
 from CST_module import *
 import sys
-import os 
-from pprint import pprint
-import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-import matplotlib.patches as mpatches
 from matplotlib.figure import Figure
-import math
 import numpy as np
 from PyQt4 import QtGui, QtCore
+
 
 def run():
 	app = QtGui.QApplication(sys.argv)
@@ -148,13 +144,13 @@ class Window(QtGui.QDialog):
 			attrSPACu = 'spAC_u'+str(i+1)
 			setattr(self, attrSPACu, QtGui.QSpinBox(self))
 			getattr(self,attrSPACu).setRange(0,100000)
-			getattr(self,attrSPACu).setSingleStep(1)
+			getattr(self,attrSPACu).setSingleStep(100)
 			getattr(self,attrSPACu).setValue(ValACu[i])
 
 			attrSPpsispar = 'sppsi_spar'+str(i+1)
 			setattr(self, attrSPpsispar, QtGui.QSpinBox(self))
 			getattr(self,attrSPpsispar).setRange(0,100)
-			getattr(self,attrSPpsispar).setSingleStep(1)
+			getattr(self,attrSPpsispar).setSingleStep(100)
 			getattr(self,attrSPpsispar).setValue(Valpsispar[i])
 
 			grid.addWidget(getattr(self,attrSPACu),i+3,0)

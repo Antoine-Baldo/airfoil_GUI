@@ -12,7 +12,7 @@ import numpy as np
 from numpy.linalg import inv
 
 from airfoil_module import CST
-from CST_module import *
+# from CST_module import *
 
 # Just as quick trick, to make upper morph I just mirror the image in regards to x
 inverted = False

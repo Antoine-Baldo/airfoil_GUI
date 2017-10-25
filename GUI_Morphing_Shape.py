@@ -44,8 +44,9 @@ class Window(QtGui.QDialog):
 				attrSPX.append('spX' + str(i+1))
 				attrSPY.append('spY' + str(i+1))
 
-				ValX.append(float((getattr(self,attrSPX[i])).value())/100)
-				ValY.append(float((getattr(self,attrSPY[i])).value())/100)
+				ValX.append(float((getattr(self,attrSPX[i])).value())/1000)
+				ValY.append(float((getattr(self,attrSPY[i])).value())/1000)
+			print "#######################################"
 			print "ValX:", ValX
 			print "ValY:", ValY
 
@@ -130,9 +131,9 @@ class Window(QtGui.QDialog):
 			ax.scatter([0]+ValX, [0]+ValY)
 			ax.set_xlabel('$\psi^p$', fontsize = 14)
 			ax.set_ylabel(r'$\xi^p$', fontsize = 14)
-			ax.set_ylim([-0.06,0.17])
+			ax.set_ylim([-0.5,0.5])
 			ax.grid()
-			ax.set_aspect('equal', adjustable='box')
+			# ax.set_aspect('equal', adjustable='box')
 			ax.legend(loc=1)
 			self.canvas.draw()
 
@@ -141,27 +142,27 @@ class Window(QtGui.QDialog):
 
 		grid.addWidget(self.canvas,0,0,1,-1)
 
-		X = [10 ,25,42,65,90]
-		Y = [2,3,4,5,5]
+		X = [100 ,250,420,650,900]
+		Y = [20,30,40,50,20]
 
 		for i in range(5):
 			attrSPX = 'spX'+str(i+1)
 			setattr(self, attrSPX, QtGui.QSpinBox(self))
-			getattr(self,attrSPX).setRange(-150,150)
-			getattr(self,attrSPX).setSingleStep(1)
+			getattr(self,attrSPX).setRange(0,1500)
+			getattr(self,attrSPX).setSingleStep(10)
 			getattr(self,attrSPX).setValue(X[i])
 
 			attrSPY = 'spY'+str(i+1)
 			setattr(self, attrSPY, QtGui.QSpinBox(self))
-			getattr(self,attrSPY).setRange(-150,150)
-			getattr(self,attrSPY).setSingleStep(1)
+			getattr(self,attrSPY).setRange(0,1500)
+			getattr(self,attrSPY).setSingleStep(10)
 			getattr(self,attrSPY).setValue(Y[i])
 
 			grid.addWidget(getattr(self,attrSPX),i+2,0)
 			grid.addWidget(getattr(self,attrSPY),i+2,1)
 
-		LabelX= QtGui.QLabel("X (/100):")
-		LabelY= QtGui.QLabel("Y (/100):")
+		LabelX= QtGui.QLabel("X (/1000):")
+		LabelY= QtGui.QLabel("Y (/1000):")
 
 		grid.addWidget(LabelX,1,0)
 		grid.addWidget(LabelY,1,1)
