@@ -33,6 +33,12 @@ class Window(QtGui.QDialog):
 
 		def run_3D_CST():
 			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			# initial_chord range = [0.1,1.]
+			# span range = [0.1,10]
+			# A range= [0.1,10]
+			# nosecone_x range = [-5,5]
+			# Nb range = [0.5,1]
+			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			# Inputs
 			# One of the diameters
 			initial_chord = 1.
