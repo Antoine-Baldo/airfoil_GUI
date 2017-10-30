@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Oct 09 17:31:59 2015
+
 Current functionalities:
 - CST
 - flaps
@@ -14,6 +15,7 @@ import numpy as np
 def create_x(c, n = 230, distribution = 'linear'):
     """ Create set of points along the chord befitting for Xfoil. The x
     output is conviniently ordered from TE to LE.
+
     :param c: float value for the chord.
     :param n: number of points
     :param distribution: linear or polar. linear uses a given delta x to
@@ -30,23 +32,28 @@ def create_x(c, n = 230, distribution = 'linear'):
     points that Xfoil will accept, therefore there is a need to
     overcome this obstacle. This was done by dividing the airfoil in
     to 3 parts.
+
     - tip: correpondent to 0 to .3% of the chord length, it is the
       most densily populated part of the airfoil to compensate the
       wide variation of slopes
+
     - middle: correpondent to .3% to 30% of the chord length (
       Shortly above a quarter of the chord length). The second most
       densily populated and the segment with the most amount of
       points. Represents the round section of the airfoil except
       for the tip. Such an amount of points is necessary because it
       is where most of the lift is generated.
+
     - endbody: correspondent to 30% to 100% of the chord length.
       The less densily populated section. Such unrefined mesh is
       possible because of the simplistic geometry of endbody's
       airfoil, just straight lines.
+
     >>> print create_x(1.0)
         array([  1.00000000e+00,   9.82051282e-01,   9.64102564e-01,
         ...
         6.66666667e-04,   3.33333333e-04,   0.00000000e+00])
+
     Created on Thu Feb 27 2014
     @author: Pedro Leal
     """
@@ -81,7 +88,7 @@ def create_x(c, n = 230, distribution = 'linear'):
 #===========================================================================
 # The following functions are related to creating the airfoil outer mold
 #===========================================================================
-def CST(x, c, deltasz=None, Au=None, Al=None, N1=.5, N2=1.):
+def CST(x, c, deltasz=None, Au=None, Al=None, N1=0.5, N2=1.):
     """
     Based on the paper "Fundamental" Parametric Geometry Representations for
     Aircraft Component Shapes" from Brenda M. Kulfan and John E. Bussoletti. 
@@ -101,6 +108,7 @@ def CST(x, c, deltasz=None, Au=None, Al=None, N1=.5, N2=1.):
     length if a full analysis is being realized.    
     
     The inputs are:
+
         - x:list or numpy. array of points along the chord, from TE and the LE,
           or vice-versa. The code works both ways.
           
@@ -128,6 +136,7 @@ def CST(x, c, deltasz=None, Au=None, Al=None, N1=.5, N2=1.):
     Created on Sun Jan 19 16:36:55 2014
     
     Updated on Mon May 19 18:13:26 2014
+
     @author: Pedro Leal
     """
     
@@ -246,6 +255,7 @@ def Naca00XX(c, t, x_list, TE_t = False, return_dict = 'y', for_xfoil = True):
     Returns dictionary y coordinates with keys 'u'pper and 'l'ower
     
     The Naca function can be found in: https://en.wikipedia.org/wiki/NACA_airfoil  
+
     Created on Wed Feb 03 12:50:52 2016
     
     @author: Endryws and Pedro Leal
@@ -866,6 +876,7 @@ def find_deflection(x_hinge, upper_cruise, lower_cruise,
     
     kwrgs arguments for 'Same Cl':
     :param Cl_objective
+
     kwrgs arguments for 'Same Cd':
     :param Cd_objective
     
