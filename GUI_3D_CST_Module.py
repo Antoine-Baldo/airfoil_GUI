@@ -25,7 +25,7 @@ class Window(QtGui.QDialog):
 		_fromUtf8 = QtCore.QString.fromUtf8
 
 		# Intialization of the windows' parametres:
-		self.setGeometry(200,50,1100,650)
+		self.setGeometry(200,50,1100,700)
 		self.setWindowTitle('3D CST Module Controle')
 		self.setWindowIcon(QtGui.QIcon('images.png'))
 
@@ -39,13 +39,13 @@ class Window(QtGui.QDialog):
 
 		#Pedro's program
 		def run_3D_CST():
-			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			# initial_chord range = [0.1,1.]
 			# span range = [0.1,10]
 			# A range= [0.1,10]
 			# nosecone_x range = [-5,5]
 			# Nb range = [0.5,1]
-			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			# Inputs
 			# One of the diameters
 			initial_chord = int(self.sl_initial_chord.value())/10
@@ -57,7 +57,7 @@ class Window(QtGui.QDialog):
 			nosecone_x = int(self.sl_nosecone_x.value())/10
 			# Class coefficient for chord distribution (Nb=.5, elliptical, Nb=1, Haack series)
 			Nb = int(self.sl_Nb.value())/10
-			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 			#B = [[1,1], [1.,1]]
 			B = [[A], [A]]
