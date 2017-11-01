@@ -25,7 +25,7 @@ class Window(QtGui.QDialog):
 		_fromUtf8 = QtCore.QString.fromUtf8
 
 		# Intialization of the windows' parametres:
-		self.setGeometry(200,50,1100,700)
+		self.setGeometry(100,40,1100,700)
 		self.setWindowTitle('3D CST Module Controle')
 		self.setWindowIcon(QtGui.QIcon('images.png'))
 
@@ -48,15 +48,15 @@ class Window(QtGui.QDialog):
 			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			# Inputs
 			# One of the diameters
-			initial_chord = int(self.sl_initial_chord.value())/10
+			initial_chord = float(self.sl_initial_chord.value())/10
 			# Nosecone height
-			span = int(self.sl_span.value())/10
+			span = float(self.sl_span.value())/10
 			# Shape coefficient for cross section (if A=1, circular, otherwise it is an ellipse)
-			A = int(self.sl_A.value())/10
+			A = float(self.sl_A.value())/10
 			# location of the nosecone tip
-			nosecone_x = int(self.sl_nosecone_x.value())/10
+			nosecone_x = float(self.sl_nosecone_x.value())/10
 			# Class coefficient for chord distribution (Nb=.5, elliptical, Nb=1, Haack series)
-			Nb = int(self.sl_Nb.value())/10
+			Nb = float(self.sl_Nb.value())/10
 			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 			#B = [[1,1], [1.,1]]
@@ -97,7 +97,7 @@ class Window(QtGui.QDialog):
 
 		# Creation of the 5 sliders:
 		# Creation of the initial chord slider:
-		Label1 = QtGui.QLabel("Initial chord (/10):")
+		Label1 = QtGui.QLabel("Initial chord (/10), one of the diameters:")
 		self.sl_initial_chord = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.sl_initial_chord.setMinimum(1)
 		self.sl_initial_chord.setMaximum(10)
@@ -111,21 +111,21 @@ class Window(QtGui.QDialog):
 		self.sl_span.setValue(40)
 
 		# Creation of the Shape coefficient for cross section slider:
-		Label3 = QtGui.QLabel("Shape coefficient for cross section (/10):")
+		Label3 = QtGui.QLabel("Shape coefficient for cross section (/10), for 1 it is circular, otherwise it is an ellipse:")
 		self.sl_A = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.sl_A.setMinimum(1)
 		self.sl_A.setMaximum(100)
 		self.sl_A.setValue(10)
 
 		# Creation of the the nosecone tip slider:
-		Label4 = QtGui.QLabel("Cosecone tip (/10):")
+		Label4 = QtGui.QLabel("Nosecone tip location (/10):")
 		self.sl_nosecone_x = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.sl_nosecone_x.setMinimum(-50)
 		self.sl_nosecone_x.setMaximum(50)
 		self.sl_nosecone_x.setValue(2)
 
 		# Creation of the the chord distribution slider:
-		Label5 = QtGui.QLabel("Chord distribution (/10):")
+		Label5 = QtGui.QLabel("Chord distribution (/10), for 0.5 it is elliptical, and for 1 it is Haack series:")
 		self.sl_Nb = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 		self.sl_Nb.setMinimum(5)
 		self.sl_Nb.setMaximum(10)
@@ -203,4 +203,3 @@ class Window(QtGui.QDialog):
 		grid.addWidget(btnR,11,0,1,-1)
 
 run()
-
