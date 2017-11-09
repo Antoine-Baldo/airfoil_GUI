@@ -1,3 +1,5 @@
+"Programed by Antoine BALDO"
+
 from airfoil_module import CST
 from CST_3D_module import *
 import sys
@@ -25,9 +27,9 @@ class Window(QtGui.QDialog):
 		_fromUtf8 = QtCore.QString.fromUtf8
 
 		# Intialization of the windows' parametres:
-		self.setGeometry(100,40,1100,700)
+		self.setGeometry(125,35,1100,725)
 		self.setWindowTitle('3D CST Module Controle')
-		self.setWindowIcon(QtGui.QIcon('images.png'))
+		self.setWindowIcon(QtGui.QIcon("C:/Users/antoi/OneDrive/Documents/GitHub/airfoil_GUI/images.png"))
 
 		# Creation of the Layout:
 		grid = QtGui.QGridLayout()
@@ -40,26 +42,18 @@ class Window(QtGui.QDialog):
 		#Pedro's program
 		def run_3D_CST():
 			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			# initial_chord range = [0.1,1.]
-			# span range = [0.1,10]
-			# A range= [0.1,10]
-			# nosecone_x range = [-5,5]
-			# Nb range = [0.5,1]
-			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			# Inputs
-			# One of the diameters
-			initial_chord = float(self.sl_initial_chord.value())/10
+			# One of the diameters 
+			initial_chord = float(self.le_initial_chord.text())
 			# Nosecone height
-			span = float(self.sl_span.value())/10
+			span = float(self.le_span.text())
 			# Shape coefficient for cross section (if A=1, circular, otherwise it is an ellipse)
-			A = float(self.sl_A.value())/10
+			A = float(self.le_A.text())
 			# location of the nosecone tip
-			nosecone_x = float(self.sl_nosecone_x.value())/10
+			nosecone_x = float(self.le_nosecone_x.text())
 			# Class coefficient for chord distribution (Nb=.5, elliptical, Nb=1, Haack series)
-			Nb = float(self.sl_Nb.value())/10
+			Nb = float(self.le_Nb.text())
 			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-			#B = [[1,1], [1.,1]]
 			B = [[A], [A]]
 			Na = 1.
 			x = np.linspace(0,1)
@@ -75,12 +69,6 @@ class Window(QtGui.QDialog):
 			                   linewidth=0, antialiased=False)
 			surf_l = ax.plot_surface(X, Z_l, Y, cmap=plt.get_cmap('jet'),
 			                   linewidth=0, antialiased=False)
-			# cset = ax.contour(X, Z_u, Y, zdir='z', offset=0, cmap=cm.coolwarm)
-			# cset = ax.contour(X, Z_l, Y, zdir='z', offset=0,  cmap=cm.coolwarm)
-			# cset = ax.contour(X, Z_u, Y, zdir='x', offset=-.1, cmap=cm.coolwarm)
-			# cset = ax.contour(X, Z_l, Y, zdir='x', offset=-.1, cmap=cm.coolwarm)
-			# cset = ax.contour(X, Z_u, Y, zdir='y', offset =0.5,  cmap=cm.coolwarm)
-			# cset = ax.contour(X, Z_l, Y, zdir='y', offset =0.5,  cmap=cm.coolwarm)
 
 			# Customize the z axis.
 			ax.set_zlim(0, 4)
@@ -95,111 +83,70 @@ class Window(QtGui.QDialog):
 			ax.set_zlim(mid_y - max_range, mid_y + max_range)
 			self.canvas.draw()
 
-		# Creation of the 5 sliders:
-		# Creation of the initial chord slider:
-		Label1 = QtGui.QLabel("Initial chord (/10), one of the diameters:")
-		self.sl_initial_chord = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-		self.sl_initial_chord.setMinimum(1)
-		self.sl_initial_chord.setMaximum(10)
-		self.sl_initial_chord.setValue(10)
+		# Export program
+		def export_STL():
 
-		# Creation of the Nosecone height slider:
-		Label2 = QtGui.QLabel("Nosecone height (/10):")
-		self.sl_span = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-		self.sl_span.setMinimum(1)
-		self.sl_span.setMaximum(100)
-		self.sl_span.setValue(40)
 
-		# Creation of the Shape coefficient for cross section slider:
-		Label3 = QtGui.QLabel("Shape coefficient for cross section (/10), for 1 it is circular, otherwise it is an ellipse:")
-		self.sl_A = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-		self.sl_A.setMinimum(1)
-		self.sl_A.setMaximum(100)
-		self.sl_A.setValue(10)
+			print '\n'"Data exported"'\n'
 
-		# Creation of the the nosecone tip slider:
-		Label4 = QtGui.QLabel("Nosecone tip location (/10):")
-		self.sl_nosecone_x = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-		self.sl_nosecone_x.setMinimum(-50)
-		self.sl_nosecone_x.setMaximum(50)
-		self.sl_nosecone_x.setValue(2)
+		# Creation of the 5 Lines Edits
+		# Creation of the initial chord Lines Edits:
+		Label1 = QtGui.QLabel("Initial chord, one of the diameters (between 0.1 and 1):")
+		self.le_initial_chord = QtGui.QLineEdit(self)
+		self.le_initial_chord.setText("1")
 
-		# Creation of the the chord distribution slider:
-		Label5 = QtGui.QLabel("Chord distribution (/10), for 0.5 it is elliptical, and for 1 it is Haack series:")
-		self.sl_Nb = QtGui.QSlider(QtCore.Qt.Horizontal, self)
-		self.sl_Nb.setMinimum(5)
-		self.sl_Nb.setMaximum(10)
-		self.sl_Nb.setValue(10)
+		# Creation of the Nosecone height Lines Edits:
+		Label2 = QtGui.QLabel("Nosecone height (between 0.1 and 10):")
+		self.le_span = QtGui.QLineEdit(self)
+		self.le_span.setText("4")
 
-		# Creation of the 5 spinbox:
-		# Creation of the initial chord spinbox:
-		self.sp_initial_chord = QtGui.QSpinBox(self)
-		self.sp_initial_chord.setRange(1, 10)
-		self.sp_initial_chord.setSingleStep(1)
-		self.sp_initial_chord.setValue(10)
+		# Creation of the Shape coefficient for cross section Lines Edits:
+		Label3 = QtGui.QLabel("Shape coefficient for cross section, for 1 it is circular, otherwise it is an ellipse (between 0.1 and 10):")
+		self.le_A = QtGui.QLineEdit(self)
+		self.le_A.setText("1")
 
-		# Creation of the Nosecone height spinbox:
-		self.sp_span = QtGui.QSpinBox(self)
-		self.sp_span.setRange(1, 100)
-		self.sp_span.setSingleStep(1)
-		self.sp_span.setValue(40)
+		# Creation of the location of the nosecone tip Lines Edits:
+		Label4 = QtGui.QLabel("Nosecone tip location (between -5 and 5):")
+		self.le_nosecone_x = QtGui.QLineEdit(self)
+		self.le_nosecone_x.setText("0.2")
 
-		# Creation of the coefficient for cross section spinbox:
-		self.sp_A = QtGui.QSpinBox(self)
-		self.sp_A.setRange(1, 100)
-		self.sp_A.setSingleStep(1)
-		self.sp_A.setValue(10)
-
-		# Creation of the location of the nosecone spinbox:
-		self.sp_nosecone_x = QtGui.QSpinBox(self)
-		self.sp_nosecone_x.setRange(-50, 50)
-		self.sp_nosecone_x.setSingleStep(1)
-		self.sp_nosecone_x.setValue(2)
-
-		# Creation of the Class coefficient for chord distribution spinbox:
-		self.sp_Nb = QtGui.QSpinBox(self)
-		self.sp_Nb.setRange(5, 10)
-		self.sp_Nb.setSingleStep(1)
-		self.sp_Nb.setValue(10)
-
-		#Connect the differents values from the sliders and the spinbox to eatch other:
-		self.sl_initial_chord.valueChanged.connect(self.sp_initial_chord.setValue)
-		self.sp_initial_chord.valueChanged.connect(self.sl_initial_chord.setValue)
-
-		self.sl_span.valueChanged.connect(self.sp_span.setValue)
-		self.sp_span.valueChanged.connect(self.sl_span.setValue)
-
-		self.sl_A.valueChanged.connect(self.sp_A.setValue)
-		self.sp_A.valueChanged.connect(self.sl_A.setValue)
-
-		self.sl_nosecone_x.valueChanged.connect(self.sp_nosecone_x.setValue)
-		self.sp_nosecone_x.valueChanged.connect(self.sl_nosecone_x.setValue)
-
-		self.sl_Nb.valueChanged.connect(self.sp_Nb.setValue)
-		self.sp_Nb.valueChanged.connect(self.sl_Nb.setValue)
-
+		# Creation of the Class coefficient for chord distribution Lines Edits:
+		Label5 = QtGui.QLabel("Chord distribution, for 0.5 it is elliptical, and for 1 it is Haack series (between 0.5 and 1):")
+		self.le_Nb = QtGui.QLineEdit(self)
+		self.le_Nb.setText("1")
 
 		# Creation of the 'Run' button:
 		btnR = QtGui.QPushButton('Run', self)
 		btnR.clicked.connect(run_3D_CST)
 
+		# Creation of the 'Quit' button:
+		btnQ = QtGui.QPushButton('Quit', self)
+		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
+
+		# Creation of the 'Export' button:
+		btnE = QtGui.QPushButton('Export', self)
+		btnE.clicked.connect(export_STL)
+
+		# Pedro's formule picture:
+		LabelP = QtGui.QLabel()
+		pixmap = QtGui.QPixmap("C:/Users/antoi/OneDrive/Documents/GitHub/airfoil_GUI/images.png")
+		LabelP.setPixmap(pixmap)
+
 		# Add the differents windows elements 
 		grid.addWidget(self.canvas,0,0,1,-1)
-		grid.addWidget(Label1,1,0)
-		grid.addWidget(self.sp_initial_chord,2,0)
-		grid.addWidget(self.sl_initial_chord,2,1)
-		grid.addWidget(Label2,3,0)
-		grid.addWidget(self.sp_span,4,0)
-		grid.addWidget(self.sl_span,4,1)
-		grid.addWidget(Label3,5,0)
-		grid.addWidget(self.sp_A,6,0)
-		grid.addWidget(self.sl_A,6,1)
-		grid.addWidget(Label4,7,0)
-		grid.addWidget(self.sp_nosecone_x,8,0)
-		grid.addWidget(self.sl_nosecone_x,8,1)
-		grid.addWidget(Label5,9,0)
-		grid.addWidget(self.sp_Nb,10,0)
-		grid.addWidget(self.sl_Nb,10,1)
-		grid.addWidget(btnR,11,0,1,-1)
+		grid.addWidget(LabelP,1,0,-1,1)
+		grid.addWidget(Label1,1,1)
+		grid.addWidget(self.le_initial_chord,1,2)
+		grid.addWidget(Label2,2,1)
+		grid.addWidget(self.le_span,2,2)
+		grid.addWidget(Label3,3,1)
+		grid.addWidget(self.le_A,3,2)
+		grid.addWidget(Label4,4,1)
+		grid.addWidget(self.le_nosecone_x,4,2)
+		grid.addWidget(Label5,5,1)
+		grid.addWidget(self.le_Nb,5,2)
+		grid.addWidget(btnR,6,1,1,-1)
+		grid.addWidget(btnE,7,1)
+		grid.addWidget(btnQ,7,2)
 
 run()
