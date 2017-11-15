@@ -9,11 +9,17 @@ import matplotlib.patches as mpatches
 from matplotlib.figure import Figure
 import math
 import numpy as np
+from stl import mesh
 from PyQt4 import QtGui, QtCore
 from scipy.interpolate import interp1d
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib import cm
+from stl import mesh
+
+# Source:
+# http://numpy-stl.readthedocs.io/en/latest/usage.html#creating-mesh-objects-from-a-list-of-vertices-and-faces
+# https://media.readthedocs.org/pdf/numpy-stl/latest/numpy-stl.pdf
 
 def run():
 	app = QtGui.QApplication(sys.argv)
@@ -26,9 +32,9 @@ class Window(QtGui.QDialog):
 		super(Window, self).__init__(parent)
 		_fromUtf8 = QtCore.QString.fromUtf8
 
-		# Intialization of the windows' parametres:
+		# Intialization of the windows parametres:
 		self.setGeometry(125,35,1100,725)
-		self.setWindowTitle('3D CST Module Controle')
+		self.setWindowTitle('3D CST Controle Module')
 		self.setWindowIcon(QtGui.QIcon("C:/Users/antoi/OneDrive/Documents/GitHub/airfoil_GUI/images.png"))
 
 		# Creation of the Layout:
@@ -39,7 +45,7 @@ class Window(QtGui.QDialog):
 		self.fig = plt.figure()
 		self.canvas = FigureCanvas(self.fig)
 
-		#Pedro's program
+		#Pedro's program:
 		def run_3D_CST():
 			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			# Inputs
@@ -70,7 +76,7 @@ class Window(QtGui.QDialog):
 			surf_l = ax.plot_surface(X, Z_l, Y, cmap=plt.get_cmap('jet'),
 			                   linewidth=0, antialiased=False)
 
-			# Customize the z axis.
+			# Customize the z axis:
 			ax.set_zlim(0, 4)
 
 			max_range = np.array([X.max()-X.min(),  Z_u.max()-Z_l.min(), Y.max()-Y.min()]).max() / 2.0
@@ -83,13 +89,31 @@ class Window(QtGui.QDialog):
 			ax.set_zlim(mid_y - max_range, mid_y + max_range)
 			self.canvas.draw()
 
-		# Export program
+		# Export program:
 		def export_STL():
+			# Creating a new mesh:
+			data = np.zeros(VERTICE_COUNT, dtype=mesh.Mesh.dtype)
+			your_mesh = mesh.Mesh(data, remove_empty_areas=False)
 
+			# The mesh normals (calculated automatically):
+			your_mesh.normals
 
+			# The mesh vectors:
+			your_mesh.v0, your_mesh.v1, your_mesh.v2
+
+			# Accessing individual points (concatenation of v0, v1 and v2 in triplets):
+			assert (your_mesh.points[0][0:3] == your_mesh.v0[0]).all()
+			assert (your_mesh.points[0][3:6] == your_mesh.v1[0]).all()
+			assert (your_mesh.points[0][6:9] == your_mesh.v2[0]).all()
+			assert (your_mesh.points[1][0:3] == your_mesh.v0[1]).all()
+
+			# Save the STL file:
+			your_mesh.save('3D_CST.stl')
+
+			# Print the message:
 			print '\n'"Data exported"'\n'
 
-		# Creation of the 5 Lines Edits
+		# Creation of the 5 Lines Edits:
 		# Creation of the initial chord Lines Edits:
 		Label1 = QtGui.QLabel("Initial chord, one of the diameters (between 0.1 and 1):")
 		self.le_initial_chord = QtGui.QLineEdit(self)
@@ -132,7 +156,7 @@ class Window(QtGui.QDialog):
 		pixmap = QtGui.QPixmap("C:/Users/antoi/OneDrive/Documents/GitHub/airfoil_GUI/images.png")
 		LabelP.setPixmap(pixmap)
 
-		# Add the differents windows elements 
+		# Add the differents windows elements:
 		grid.addWidget(self.canvas,0,0,1,-1)
 		grid.addWidget(LabelP,1,0,-1,1)
 		grid.addWidget(Label1,1,1)
