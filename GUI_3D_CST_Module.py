@@ -89,29 +89,20 @@ class Window(QtGui.QDialog):
 			ax.set_zlim(mid_y - max_range, mid_y + max_range)
 			self.canvas.draw()
 
-		# Export program:
-		def export_STL():
+			########################################################################			
+			# Export program:
+			# def export_STL():
 			# Creating a new mesh:
-			data = np.zeros(VERTICE_COUNT, dtype=mesh.Mesh.dtype)
+			n = 2
+			data = np.zeros(n, dtype=mesh.Mesh.dtype)
 			your_mesh = mesh.Mesh(data, remove_empty_areas=False)
-
-			# The mesh normals (calculated automatically):
-			your_mesh.normals
-
-			# The mesh vectors:
-			your_mesh.v0, your_mesh.v1, your_mesh.v2
-
-			# Accessing individual points (concatenation of v0, v1 and v2 in triplets):
-			assert (your_mesh.points[0][0:3] == your_mesh.v0[0]).all()
-			assert (your_mesh.points[0][3:6] == your_mesh.v1[0]).all()
-			assert (your_mesh.points[0][6:9] == your_mesh.v2[0]).all()
-			assert (your_mesh.points[1][0:3] == your_mesh.v0[1]).all()
 
 			# Save the STL file:
 			your_mesh.save('3D_CST.stl')
 
 			# Print the message:
 			print '\n'"Data exported"'\n'
+			########################################################################
 
 		# Creation of the 5 Lines Edits:
 		# Creation of the initial chord Lines Edits:
@@ -148,8 +139,8 @@ class Window(QtGui.QDialog):
 		btnQ.clicked.connect(QtCore.QCoreApplication.instance().quit)
 
 		# Creation of the 'Export' button:
-		btnE = QtGui.QPushButton('Export', self)
-		btnE.clicked.connect(export_STL)
+		# btnE = QtGui.QPushButton('Export', self)
+		# btnE.clicked.connect(export_STL)
 
 		# Pedro's formule picture:
 		LabelP = QtGui.QLabel()
@@ -170,7 +161,7 @@ class Window(QtGui.QDialog):
 		grid.addWidget(Label5,5,1)
 		grid.addWidget(self.le_Nb,5,2)
 		grid.addWidget(btnR,6,1,1,-1)
-		grid.addWidget(btnE,7,1)
-		grid.addWidget(btnQ,7,2)
+		# grid.addWidget(btnE,7,1)
+		grid.addWidget(btnQ,7,1,1,-1)
 
 run()
